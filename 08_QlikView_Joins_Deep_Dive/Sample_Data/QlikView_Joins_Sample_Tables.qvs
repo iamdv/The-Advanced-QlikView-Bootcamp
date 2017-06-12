@@ -1,0 +1,21 @@
+//Inline load
+Colours:
+LOAD * INLINE [
+    ID, Colour
+    1, Red
+    2, Black
+    3, Blue
+    4, Green
+    5, Yellow
+];
+
+
+Fruits:
+LOAD * INLINE [
+    ID, Fruit
+    1, Apple
+    4, Apple
+    5, Lime
+    6, Orange
+];
+
