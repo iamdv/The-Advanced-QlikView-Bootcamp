@@ -1,0 +1,16 @@
+NoConcatenate
+
+Outer_Join_Table:
+LOAD
+	ID, 
+	Colour
+Resident Colours;
+
+Outer join
+
+LOAD
+	ID, 
+	Fruit
+Resident Fruits;
+
+Drop Tables Colours, Fruits;
