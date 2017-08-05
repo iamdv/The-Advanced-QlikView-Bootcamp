@@ -1,0 +1,222 @@
+///$tab Main
+SET ThousandSep=',';
+SET DecimalSep='.';
+SET MoneyThousandSep=',';
+SET MoneyDecimalSep='.';
+SET MoneyFormat='£#,##0.00;-£#,##0.00';
+SET TimeFormat='hh:mm:ss';
+SET DateFormat='DD-MMM-YYYY';
+SET TimestampFormat='DD-MMM-YYYY hh:mm:ss[.fff]';
+SET FirstWeekDay=0;
+SET BrokenWeeks=0;
+SET ReferenceDay=4;
+SET FirstMonthOfYear=1;
+SET CollationLocale='en-GB';
+SET MonthNames='Jan;Feb;Mar;Apr;May;Jun;Jul;Aug;Sep;Oct;Nov;Dec';
+SET LongMonthNames='January;February;March;April;May;June;July;August;September;October;November;December';
+SET DayNames='Mon;Tue;Wed;Thu;Fri;Sat;Sun';
+SET LongDayNames='Monday;Tuesday;Wednesday;Thursday;Friday;Saturday;Sunday';
+///$tab Config
+///$tab DIm - Customers
+Customers:
+LOAD 
+	[Customer ID]						AS		%Key_CustomerID,		 
+	Address1, 
+	Address2, 
+	City, 
+	[Contact First Name], 
+	[Contact Last Name], 
+	[Contact Position], 
+	[Contact Title], 
+	Country,
+	[Customer Credit ID], 
+	[Customer ID], 
+	[Customer Name], 
+	[E-mail], 
+	Fax, 
+	[Last Year's Sales], 
+	Phone, 
+	[Postal Code], 
+	Region, 
+	[Web Site]
+FROM [C:\Users\DV\Google Drive\Courses\Advanced Developer\Data\Data\Customers.qvd] (qvd);
+
+///$tab Dim - Employee
+Employees:
+LOAD 
+	[Employee ID]						AS		%Key_EmployeeID,		 
+	[Birth Date], 
+	[Emergency Contact First Name], 
+	[Emergency Contact Last Name], 
+	[Emergency Contact Phone], 
+	[Emergency Contact Relationship], 
+	[Employee ID], 
+	Extension, 
+	[First Name], 
+	[Hire Date], 
+	HireYear, 
+	[Last Date],
+	[Home Phone], 
+	[Last Name],
+	[Employee Name], 
+	Notes, 
+	Photo, 
+	Position, 
+	[Reports To], 
+	Salary, 
+	SSN, 
+	[Supervisor ID], 
+	FireYear
+FROM [C:\Users\DV\Google Drive\Courses\Advanced Developer\Data\Data\Employees.qvd] (qvd);
+///$tab Dim - Employee Address
+EmployeeAddress:
+LOAD 
+	[Employee ID]						AS		%Key_EmployeeID,	
+	[Employee City], 
+	[Employee Country], 
+	[Employee Postal Code], 
+	[Employee Region]
+FROM [C:\Users\DV\Google Drive\Courses\Advanced Developer\Data\Data\EmployeeAddress.qvd] (qvd);
+
+///$tab Dim - Teams
+Teams:
+LOAD 
+	[Employee ID]					AS		%Key_EmployeeID,	 
+	[Employee Name1], 
+	[Employee Name2], 
+	[Employee Name3], 
+	Manager, 
+	[Employee Hierarchy], 
+	[Reports To]						AS		[Reports To (Team)], 
+	[Employee Name]					AS		[Employee Name (Team)]
+FROM [C:\Users\DV\Google Drive\Courses\Advanced Developer\Data\Data\Teams.qvd] (qvd);
+
+///$tab Dim - Calendar
+Calendar:
+LOAD 
+	Floor([Order Date])								AS		%Key_OrderDate,	
+	[Order Date], 
+	Year, 
+	QtrYear, 
+	Week, 
+	Weekday, 
+	Weekstart, 
+	Day, 
+	DateMMDD, 
+	CY, 
+	FPY, 
+	SPY, 
+	CYTD, 
+	FPYTD, 
+	SPYTD, 
+	CQ, 
+	FPQ, 
+	SPQ, 
+	CQTD, 
+	FPQTD, 
+	SPQTD, 
+	CM, 
+	PM, 
+	FPM, 
+	SPM, 
+	CMTD, 
+	PMTD, 
+	FPMTD, 
+	SPMTD, 
+	CW, 
+	FPW, 
+	SPW, 
+	CWTD, 
+	FPWTD,
+	SPWTD, 
+	CD, 
+	FPD, 
+	SPD, 
+	W1, 
+	W2, 
+	W3, 
+	W4, 
+	W1TD, 
+	W2TD, 
+	W3TD, 
+	W4TD
+FROM [C:\Users\DV\Google Drive\Courses\Advanced Developer\Data\Data\MasterCalendar.qvd] (qvd);
+
+///$tab Dim - Products
+Products:
+LOAD 
+	[Product ID]							AS		%Key_EmployeeID,	
+	[Product Type ID]						AS		%Key_ProductTypeID,		
+	[Supplier ID]							AS		%Key_SupplierID,		
+	Color, 
+	[M/F], 
+	[Product Class],
+	[Product ID], 
+	[Product Name], 
+	[Product Type ID], 
+	Size, 
+	[Supplier ID]
+FROM [C:\Users\DV\Google Drive\Courses\Advanced Developer\Data\Data\Products.qvd] (qvd);
+
+///$tab Dim - Product Description
+ProductDescription:
+LOAD 
+	[Product Type ID]						AS		%Key_ProductTypeID,	
+	Description, 
+	[Graphic Image Location], 
+	Picture, 
+	[Product Type Name]
+FROM [C:\Users\DV\Google Drive\Courses\Advanced Developer\Data\Data\ProductType.qvd] (qvd);
+
+///$tab Dim - Suppliers
+Suppliers:
+LOAD 
+	[Supplier ID]							AS		%Key_SupplierID,		
+	[Supplier Name]
+FROM [C:\Users\DV\Google Drive\Courses\Advanced Developer\Data\Data\Supplier.qvd] (qvd);
+
+///$tab Dim - Budget
+//LOAD Year, [SalesPerson ID], Month, Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec
+//FROM [C:\Users\DV\Google Drive\Courses\Advanced Developer\Data\Data\Sales_Budget.xlsx]
+//(ooxml, embedded labels, table is [Budget 2003]);
+//
+///$tab FACT - Orders
+Orders:
+LOAD 
+	[Customer ID]						AS		%Key_CustomerID,		
+	[Product ID]							AS		%Key_ProductID,		 
+	%Date								AS		%Key_OrderDate,	 	
+	[Order ID], 
+	[Courier Website], 
+	[Customer ID]						AS		[Customer ID (Fact)], 	
+	[Employee ID]						AS		[Employee ID (Fact)], 		
+	[Order Amount], 
+	[Order Date]							AS		[Order Date (Fact)], 
+	[Payment Received], 
+	PO#, 
+	[Required Date], 
+	[Ship Date], 
+	[Ship Via], 
+	Shipped, 
+	[Product ID]							AS		[Product ID (Fact)], 
+	Quantity, 
+	[Unit Price], 
+	LineSalesAmount
+FROM [C:\Users\DV\Google Drive\Courses\Advanced Developer\Data\Data\Orders.qvd] (qvd);
+
+///$tab FACT - Inventory
+Inventory:
+LOAD 
+	[Inventory Date], 
+	[Product ID], 
+	[Units In Stock], 
+	[# Delta Units in Stock], 
+	[# Delta Cumulative Units in Stock]
+FROM [C:\Users\DV\Google Drive\Courses\Advanced Developer\Data\Data\Inventory.qvd] (qvd);
+
+
+
+
+
+///$tab <<< EXIT SCRIPT >>>
+EXIT SCRIPT;
