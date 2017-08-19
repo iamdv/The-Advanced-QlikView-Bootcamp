@@ -23,7 +23,7 @@ LOAD
 	[Postal Code], 
 	Region, 
 	[Web Site]
-FROM [C:\Users\DV\Google Drive\Courses\Advanced Developer\Data\Data\Customers.qvd] (qvd);
+FROM [Customers.qvd] (qvd);
 
 
 
