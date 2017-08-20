@@ -7,3 +7,6 @@
 2. You can’t use forced concatenation on individual table
 3. You MUST create the %Key_RequireDate either in Preceding Load or Resident Load ONLY
 
+This is how the final data model should be:
+
+![Image of output](https://github.com/iamdv/QlikView-Advanced-Developer-Part1/blob/master/05_Resident_Load_vs_Preceding_Load/Challenges/5_7_Challenge.png)
