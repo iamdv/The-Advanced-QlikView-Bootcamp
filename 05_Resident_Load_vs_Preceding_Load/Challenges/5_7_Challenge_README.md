@@ -10,3 +10,6 @@
 This is how the final data model should be:
 
 ![Image of output](https://github.com/iamdv/QlikView-Advanced-Developer-Part1/blob/master/05_Resident_Load_vs_Preceding_Load/Challenges/5_7_Challenge.png)
+
+
+Note: Please download QVW file if you have licensed QlikView desktop edition. If you are using QlikView personal edition then please use copy the script from QVS and the QVD files.
