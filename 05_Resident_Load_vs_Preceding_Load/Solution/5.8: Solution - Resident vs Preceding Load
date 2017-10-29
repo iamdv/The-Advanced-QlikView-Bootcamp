@@ -1,0 +1,33 @@
+Temp_Orders:
+
+LOAD 
+	FilePath() & FileName()				AS		FileName,
+	[Customer ID]						AS		%Key_CustomerID,		
+	[Product ID]							AS		%Key_ProductID,		 
+	%Date								AS		%Key_OrderDate,	 	
+	[Order ID], 
+	[Courier Website], 
+	[Customer ID]						AS		[Customer ID (Fact)], 	
+	[Employee ID]						AS		[Employee ID (Fact)], 		
+	[Order Amount], 
+	[Order Date]							AS		[Order Date (Fact)], 
+	[Payment Received], 
+	PO#, 
+	[Required Date], 
+	[Ship Date], 
+	[Ship Via], 
+	Shipped, 
+	[Product ID]							AS		[Product ID (Fact)], 
+	Quantity, 
+	[Unit Price], 
+	LineSalesAmount
+FROM [Orders_2017*.qvd] (qvd);
+
+NoConcatenate
+
+Orders:
+LOAD *,
+	Floor([Required Date])					AS		[%Key_RequireDate]
+Resident Temp_Orders;
+
+Drop Table Temp_Orders;
