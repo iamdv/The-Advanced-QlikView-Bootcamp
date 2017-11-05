@@ -1,0 +1,318 @@
+///$tab Main
+SET ThousandSep=',';
+SET DecimalSep='.';
+SET MoneyThousandSep=',';
+SET MoneyDecimalSep='.';
+SET MoneyFormat='$#,##0.00;($#,##0.00)';
+SET TimeFormat='h:mm:ss TT';
+SET DateFormat='M/D/YYYY';
+SET TimestampFormat='M/D/YYYY h:mm:ss[.fff] TT';
+SET MonthNames='Jan;Feb;Mar;Apr;May;Jun;Jul;Aug;Sep;Oct;Nov;Dec';
+SET DayNames='Mon;Tue;Wed;Thu;Fri;Sat;Sun';
+
+OLEDB CONNECT32 TO [Provider=Microsoft.Jet.OLEDB.4.0;User ID=Admin;Data Source=C:\Advanced 
+
+developer training\xtreme.mdb;Mode=Share Deny None;Extended Properties="";Jet OLEDB:System 
+
+database="";Jet OLEDB:Registry Path="";Jet OLEDB:Database Password="";Jet OLEDB:Engine Type=5;Jet 
+
+OLEDB:Database Locking Mode=1;Jet OLEDB:Global Partial Bulk Ops=2;Jet OLEDB:Global Bulk 
+
+Transactions=1;Jet OLEDB:New Database Password="";Jet OLEDB:Create System Database=False;Jet 
+
+OLEDB:Encrypt Database=False;Jet OLEDB:Don't Copy Locale on Compact=False;Jet OLEDB:Compact 
+
+Without Replica Repair=False;Jet OLEDB:SFP=False];
+
+
+vToday = Today();
+///$tab Facts
+Orders:
+LOAD 
+    `Courier Website`,
+    `Customer ID`,
+    `Employee ID`,
+    `Employee ID` as [SalesPerson ID],
+    `Order Amount`,
+    `Order Date`,
+     Date#(`Order Date`) as %Date,
+    `Order ID`,
+    `Payment Received`,
+    `PO#`,
+    `Required Date`,
+    `Ship Date`,
+    `Ship Via`,
+     Shipped;
+SQL SELECT *
+FROM Orders;
+
+OrderDetail:
+left join(Orders)
+LOAD 
+    `Order ID`,
+    `Product ID`,
+     Quantity,
+    `Unit Price`,
+    `Unit Price` * Quantity as LineSalesAmount
+where exists([Order ID])
+
+;
+
+
+SQL SELECT *
+FROM `Orders Detail`;
+
+Sales:
+LOAD *,
+
+[Order Date] &'|'& [Product ID]  as %LinkKey,
+[Order Date] &'|'& [Product ID]  as %SalesLinkKey
+
+Resident Orders
+
+;
+
+drop table Orders;
+
+left join(Sales)
+LOAD Expr1 as [Total Sales],
+    `Order ID`;
+SQL SELECT *
+FROM `List Totals`;
+
+ 
+Purchase:
+LOAD 
+    
+    `Purchase Amount`,
+    `Purchase Date`,
+    `Purchase ID`
+;
+ //   `Supplier ID`;
+SQL SELECT *
+FROM Purchase;
+
+left join(Purchase)
+LOAD 
+    `Product ID`,
+    `Purchase ID`,
+     Quantity as [Purchased Quantity],
+    `Unit Price` as [Purchased Unit Price];
+SQL SELECT *
+FROM `Purchase Detail`;
+
+Purchases:
+LOAD *,
+
+[Purchase Date] &'|'& [Product ID]  as %LinkKey
+
+Resident Purchase
+
+;
+
+drop table Purchase
+
+;
+
+
+Inentory_temp:
+LOAD `Add Or Remove`,
+    Date as [Inventory Date],
+    `ID Number`,
+    `Inventory Transaction ID`,
+    `Inventory Transaction Type ID`,
+    `Product ID`,
+    `Units In Stock`
+;
+SQL SELECT *
+FROM `Inventory Transaction`
+;
+ 
+Inventory:
+LOAD *,
+
+[Inventory Date] &'|'& [Product ID]  as %LinkKey
+
+;
+
+Load *,
+     if([Product ID] = Previous([Product ID]), [# Delta Units in Stock] + peek([# Delta 
+
+Cumulative Units in Stock], -1), 0) as [# Delta Cumulative Units in Stock]
+;
+LOAD
+    [Inventory Date],
+    [Product ID],
+    `Units In Stock`,
+    if([Product ID] = Previous([Product ID]), [Units In Stock] - peek('Units In Stock', -1), 0) 
+
+as [# Delta Units in Stock]
+Resident Inentory_temp
+Order by `Product ID`, [Inventory Date]
+
+;
+
+drop table Inentory_temp;
+///$tab Dimensions
+Customers:
+LOAD 
+     Address1,
+     Address2,
+     City,
+    `Contact First Name`,
+    `Contact Last Name`,
+    `Contact Position`,
+    `Contact Title`,
+     Country,
+    `Customer Credit ID`,
+    `Customer ID`,
+    `Customer Name`,
+    `E-mail`,
+     Fax,
+    `Last Year's Sales`,
+     Phone,
+    `Postal Code`,
+     Region,
+    `Web Site`;
+SQL SELECT *
+FROM Customer;
+
+Employees:
+Load *,
+      Year([Last Date]) as FireYear
+      ;
+LOAD 
+    `Birth Date`,
+    `Emergency Contact First Name`,
+    `Emergency Contact Last Name`,
+    `Emergency Contact Phone`,
+    `Emergency Contact Relationship`,
+    `Employee ID`,
+     Extension,
+    `First Name`,
+    `Hire Date`,
+    Year([Hire Date]) as HireYear,
+     date([Hire Date] + [Hire Date] * Rand() * .01) as [Last Date],
+    `Home Phone`,
+    `Last Name`,
+    `First Name` & `Last Name` as [Employee Name],
+     Notes,
+     Photo,
+     Position,
+    `Reports To`,
+     Salary,
+     SSN,
+    `Supervisor ID`;
+SQL SELECT *
+FROM Employee;
+
+EmployeeAddress:
+Load 
+      City as [Employee City],
+      Country as [Employee Country],
+     `Employee ID`,
+     `Postal Code` as [Employee Postal Code],
+      Region as [Employee Region];
+SQL SELECT *
+FROM `Employee Addresses`;
+
+Products:
+LOAD  Color,
+     `M/F`,
+     `Product Class`,
+     `Product ID`,
+     `Product Name`,
+     `Product Type ID`,
+      Size,
+     `Supplier ID`;
+SQL SELECT *
+FROM Product;
+
+ProductType:
+LOAD 
+     Description,
+    `Graphic Image Location`,
+     Picture,
+    `Product Type ID`,
+    `Product Type Name`;
+SQL SELECT *
+FROM `Product Type`;
+
+ 
+
+Manager:
+LOAD 
+    `Employee ID`,
+    `Manager ID`;
+SQL SELECT *
+FROM Manager;
+
+
+Supplier:
+LOAD
+    `Supplier ID`,
+    `Supplier Name`;
+SQL SELECT *
+FROM Supplier;
+
+ 
+
+///$tab Link Table
+//Link:
+//LOAD
+//    distinct
+//    %LinkKey, 
+//    [Order Date] as Date,
+//    [Product ID]
+//Resident Sales
+//
+//;
+//
+//concatenate(Link)
+//
+//LOAD
+//    distinct 
+//    %LinkKey, 
+//    [Purchase Date] as Date,
+//    [Product ID]
+//Resident Purchases
+//where not Exists(%SalesLinkKey, %LinkKey)
+//
+//;
+//
+//concatenate(Link)
+//
+//LOAD
+//    distinct 
+//    %LinkKey, 
+//    [Inventory Date] as Date,
+//    [Product ID]
+//Resident Inventory
+//where not Exists(%SalesLinkKey, %LinkKey)
+//
+//;
+//
+//DROP FIELDS [Order Date], [Purchase Date], [Inventory Date], [Product ID], %SalesLinkKey FROM 
+
+Sales, Purchases, Inventory;    
+///$tab Improved Link Table
+Link:
+LOAD
+	*,
+	date(subField(%LinkKey, '|', 1), 'M/D/YYYY')	AS  Date,			 
+	subField(%LinkKey, '|', 2)						AS  [Product ID]	
+
+     
+;
+LOAD
+	FieldValue('%LinkKey', RecNo()) 				AS %LinkKey
+AUTOGENERATE FieldValueCount('%LinkKey')
+;
+
+
+DROP FIELDS [Order Date], [Purchase Date], [Inventory Date], [Product ID], %SalesLinkKey FROM 
+
+Sales, Purchases, Inventory;  
+
+
+
