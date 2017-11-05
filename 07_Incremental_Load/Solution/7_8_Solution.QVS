@@ -1,0 +1,234 @@
+///$tab Main
+SET ThousandSep=',';
+SET DecimalSep='.';
+SET MoneyThousandSep=',';
+SET MoneyDecimalSep='.';
+SET MoneyFormat='$#,##0.00;($#,##0.00)';
+SET TimeFormat='h:mm:ss TT';
+SET DateFormat='M/D/YYYY';
+SET TimestampFormat='M/D/YYYY h:mm:ss[.fff] TT';
+SET MonthNames='Jan;Feb;Mar;Apr;May;Jun;Jul;Aug;Sep;Oct;Nov;Dec';
+SET DayNames='Mon;Tue;Wed;Thu;Fri;Sat;Sun';
+
+/*  This incremental QVD builder is for INSERT & UPDATE ONLY  */
+
+
+SET  _qvd_path = 'C:\Advanced_QlikView_Developer\Data\QVD\';
+SET  _qvd_name = 'Invoice';
+
+SET  vKeyField = [Order ID];
+SET  vKeyField_alias = %Key_OrderID;
+SET  vUpdateField = Date;
+
+// database connection
+
+OLEDB CONNECT32 TO [Provider=Microsoft.Jet.OLEDB.4.0;User ID=Admin;Data Source=C:\Advanced_QlikView_Developer\Data\AccessDB\xtreme.mdb;Mode=Share Deny None;Extended Properties="";Jet OLEDB:System database="";Jet OLEDB:Registry Path="";Jet OLEDB:Database Password="";Jet OLEDB:Engine Type=5;Jet OLEDB:Database Locking Mode=1;Jet OLEDB:Global Partial Bulk Ops=2;Jet OLEDB:Global Bulk Transactions=1;Jet OLEDB:New Database Password="";Jet OLEDB:Create System Database=False;Jet OLEDB:Encrypt Database=False;Jet OLEDB:Don't Copy Locale on Compact=False;Jet OLEDB:Compact Without Replica Repair=False;Jet OLEDB:SFP=False];
+
+///$tab Full Reload
+//Check if $(_qvd_name).QVD already exists...
+
+LET vFileLen = FileSize('$(_qvd_path)$(_qvd_name).qvd');
+
+TRACE '>>> QVD Size: ' $(vFileLen);
+
+if Len('$(vFileLen)')=0 Then
+
+//If QVD doesn't exist then full reload
+
+trace 'Full reload begins...' ;
+
+$(_qvd_name):
+
+SELECT * FROM  $(_qvd_name)
+;
+
+let vRows = NoOfRows('$(_qvd_name)');
+
+
+//Store Max TX ID as a Primary Key for the future load...
+
+Key:
+Load
+   num#(max(FieldValue('$(vUpdateField)',RecNo()))) as NewKey
+AutoGenerate num#(FieldValueCount('$(vUpdateField)'))
+
+;
+
+LET vNewKey = date(Peek('NewKey',0,'Key'));
+
+LET vKeyQVD = 'MaxKey'
+
+;
+
+$(vKeyQVD):
+LOAD 
+    '$(vNewKey)' as  MaxKey,
+    '$(vRows)'   as [# of New Rows Inserted],
+    '$(vRows)'   as [# Total Rows],
+    date(now())  as [Reload Date]
+autogenerate(1)
+    
+;
+
+drop table Key
+
+;
+
+//store max key into a QVD
+store $(vKeyQVD) into $(_qvd_path)$(vKeyQVD).qvd(qvd)
+
+;
+
+//Rename Order ID Key field 
+
+RENAME Field 'Order ID' to %Key_OrderID;
+
+//Store the QVD
+
+store $(_qvd_name) into $(_qvd_path)$(_qvd_name).qvd(qvd);
+
+drop table $(_qvd_name)
+
+;
+
+//Reset variables to NULL
+
+LET vNewKey = null();
+LET vMaxKey = null();
+LET vRows   = null();
+
+
+exit Script
+
+;
+
+///$tab Incremental Load
+// If QVD exists then perform incremental load...
+
+ELSEIF Len('$(vFileLen)')> 0 then
+
+TRACE 'Incremental reload begins...';
+
+//Extract Primary Key for the incremental load WHERE clause..
+
+SET vKeyQVD = 'MaxKey';
+
+
+$(vKeyQVD):
+LOAD 
+    date(MaxKey) as MaxKey
+FROM
+$(_qvd_path)$(vKeyQVD).qvd(qvd);
+
+LET vMaxKey =  Peek('MaxKey');
+
+TRACE '>>>Last Transaction ID stored: ' & $(vMaxKey);
+
+drop table $(vKeyQVD);
+
+
+//Perform Incremental Load...
+
+$(_qvd_name):
+SELECT * FROM  $(_qvd_name)
+WHERE Date > #$(vMaxKey)#;
+
+let vRows = NoOfRows('$(_qvd_name)');
+
+TRACE 'Total Rows>>>' $(vRows);
+
+Key:
+Load
+   num#(max(FieldValue('$(vUpdateField)',RecNo()))) as NewKey
+AutoGenerate num#(FieldValueCount('$(vUpdateField)'))
+
+;
+
+
+LET vNewKey = Peek('NewKey',0,'Key');
+
+TRACE $(vNewKey);
+
+//Rename Order ID Key field 
+
+RENAME Field '$(vKeyField)' to $(vKeyField_alias);
+
+
+//Concatenate new rows with existing QVD
+//Load existing QVD and concatenate it with new records..
+
+Concatenate($(_qvd_name))
+LOAD
+   *
+FROM
+$(_qvd_path)$(_qvd_name).qvd(qvd)
+where not exists($(vKeyField_alias))
+;
+
+///$tab Delete
+// To delete records inner join key field with the QVD table. For a large table this may consume resource so use only if delete is required
+
+Inner join($(_qvd_name))
+Load
+    
+    [$(vKeyField)] as $(vKeyField_alias)
+    
+;
+
+SQL select [$(vKeyField)] from $(_qvd_name)
+
+;
+
+//Store the entire table back to the QVD ...
+
+TRACE '>> Storing QVD';
+
+store $(_qvd_name) into $(_qvd_path)$(_qvd_name).qvd(qvd);
+
+let vTotalRows = NoOfRows('$(_qvd_name)');
+
+//store Max ID for the future incremental load...
+
+
+Key:
+Load
+   num#(max(FieldValue('$(vUpdateField)',RecNo()))) as NewKey
+AutoGenerate num#(FieldValueCount('$(vUpdateField)'))
+
+;
+
+
+LET vNewKey = Peek('NewKey',0,'Key');
+
+TRACE $(vNewKey);
+
+LET vKeyQVD = 'MaxKey';
+
+$(vKeyQVD):
+LOAD 
+    '$(vNewKey)' as  MaxKey,
+    '$(vRows)'   as [# of New Rows Inserted],
+    '$(vTotalRows)'   as [# Total Rows],
+    date(now())  as [Reload Date]
+autogenerate(1)
+
+;
+
+drop table Key;
+
+//Store Key info
+store $(vKeyQVD) into $(_qvd_path)$(vKeyQVD).qvd(qvd);
+
+//drop the table
+
+drop table $(_qvd_name);
+
+
+//Reset variables to NULL
+
+LET vNewKey = null();
+LET vMaxKey = null();
+LET vRows   = null();
+
+ENDIF
+
