@@ -1,0 +1,36 @@
+Link:
+LOAD
+    distinct
+    %LinkKey, 
+    [Order Date] as Date,
+    [Product ID]
+Resident Sales
+
+;
+
+concatenate(Link)
+
+LOAD
+    distinct 
+    %LinkKey, 
+    [Purchase Date] as Date,
+    [Product ID]
+Resident Purchases
+where not Exists(%SalesLinkKey, %LinkKey)
+
+;
+
+concatenate(Link)
+
+LOAD
+    distinct 
+    %LinkKey, 
+    [Inventory Date] as Date,
+    [Product ID]
+Resident Inventory
+where not Exists(%SalesLinkKey, %LinkKey)
+
+;
+
+DROP FIELDS [Order Date], [Purchase Date], [Inventory Date], [Product ID], %SalesLinkKey FROM Sales, Purchases, Inventory;    
+
