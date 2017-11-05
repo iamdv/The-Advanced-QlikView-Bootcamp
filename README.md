@@ -1,2 +1,2 @@
 # The Advanced QlikView Bootcamp Course
-QlikView Advanced Developer Part 1 Series. This contains all the code and the challenges.
+Most advanced QlikView course to make you awesome QlikView Developer. This contains all the code and the challenges.
