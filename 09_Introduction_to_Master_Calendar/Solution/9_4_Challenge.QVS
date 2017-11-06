@@ -1,8 +1,7 @@
 Calendar:
-
 LOAD
 	 
-	D AS [Order Date],
+	D AS %Key_OrderDate,
 
 //	Basic Date Dimensions
 	Year(D) AS Year,
@@ -18,7 +17,7 @@ LOAD
 	date(D, 'MM/DD') AS DateMMDD,
 
 //	Year flags
-	inyear(D, '$(vToday)', 0) * -1 AS CY,							//Current year
+	inyear(D, '$(vToday)', 0) * -1 AS CY,								//Current year
 	inyear(D, '$(vToday)', -1) * -1 AS FPY,							//First prior year
 	inyear(D, '$(vToday)', -2) * -1 AS SPY,							//Second prior year	
 	
@@ -75,22 +74,24 @@ LOAD
 	inweektodate(D, '$(vToday)', -2) * -1 AS W2TD,					//Two weeks ago to date
 	inweektodate(D, '$(vToday)', -3) * -1 AS W3TD,					//Three weeks ago to date
 	inweektodate(D, '$(vToday)', -4) * -1 AS W4TD						//Four weeks ago to date
+	
+;
+
+
+load
+   date(MinDate + IterNo() -1) as D
+While (MinDate + IterNo() -1) <= MaxDate
 
 ;
 
-LOAD
-  date(MinDate + IterNo()) as D
-While MinDate + IterNo() <= MaxDate
+
+load
+    min(FieldValue('%Key_OrderDate', RecNo())) as MinDate,
+    max(FieldValue('%Key_OrderDate', RecNo())) as MaxDate
+AutoGenerate(FieldValueCount('%Key_OrderDate'))
 
 ;
 
-LOAD
-min(num#(FieldValue('%Date', RecNo()))) as MinDate,
-max(num#(FieldValue('%Date', RecNo()))) as MaxDate
-AutoGenerate (num#(FieldValueCount('%Date')))
 
-;
- 
-drop field %Date
 
-;
+    
