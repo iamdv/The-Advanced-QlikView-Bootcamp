@@ -1,1 +1,1 @@
-Read me
+This chapter covers inter record functions 
