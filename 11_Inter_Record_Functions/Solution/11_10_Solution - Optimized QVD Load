@@ -1,0 +1,53 @@
+///$tab Main
+SET ThousandSep=',';
+SET DecimalSep='.';
+SET MoneyThousandSep=',';
+SET MoneyDecimalSep='.';
+SET MoneyFormat='$#,##0.00;($#,##0.00)';
+SET TimeFormat='h:mm:ss TT';
+SET DateFormat='M/D/YYYY';
+SET TimestampFormat='M/D/YYYY h:mm:ss[.fff] TT';
+SET MonthNames='Jan;Feb;Mar;Apr;May;Jun;Jul;Aug;Sep;Oct;Nov;Dec';
+SET DayNames='Mon;Tue;Wed;Thu;Fri;Sat;Sun';
+
+OLEDB CONNECT32 TO [Provider=Microsoft.Jet.OLEDB.4.0;User ID=Admin;Data Source=C:\Advanced developer training\xtreme.mdb;Mode=Share Deny None;Extended Properties="";Jet OLEDB:System database="";Jet OLEDB:Registry Path="";Jet OLEDB:Database Password="";Jet OLEDB:Engine Type=5;Jet OLEDB:Database Locking Mode=1;Jet OLEDB:Global Partial Bulk Ops=2;Jet OLEDB:Global Bulk Transactions=1;Jet OLEDB:New Database Password="";Jet OLEDB:Create System Database=False;Jet OLEDB:Encrypt Database=False;Jet OLEDB:Don't Copy Locale on Compact=False;Jet OLEDB:Compact Without Replica Repair=False;Jet OLEDB:SFP=False];
+
+
+SET HidePrefix = '%';
+
+///$tab Mapping Table
+InventoryType_Map:
+Mapping LOAD 
+     [Inventory Transaction Type ID],
+     `Inventory Transaction Type`
+    ;
+SQL SELECT *
+FROM `Inventory Transaction Type`;
+
+
+///$tab Facts
+[Inventory Transaction]:
+LOAD [Add Or Remove], 
+     %Key_InventoryDate, 
+     [ID Number], 
+     [Inventory Transaction ID], 
+     [Inventory Transaction Type ID], 
+     %Key_ProductID, 
+     [Units In Stock]
+FROM
+"C:\Qlik COE\Training Tuesdays\Data\[Inentory Transaction].qvd"
+(qvd);
+
+
+Join([Inventory Transaction])
+
+load
+    [Inventory Transaction ID],
+     applymap('InventoryType_Map', [Inventory Transaction ID], '>Missing') as [Inventory Transaction Type]
+;
+    
+LOAD
+    FieldValue('Inventory Transaction ID', RecNo()) as [Inventory Transaction ID]
+AutoGenerate(FieldValueCount('Inventory Transaction ID'))
+
+;
