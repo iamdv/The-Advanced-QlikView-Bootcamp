@@ -1,1 +1,1 @@
-Read me
+This chapter covers advanced script operators and functions
