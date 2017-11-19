@@ -1,6 +1,6 @@
 This chapter shows advanced techniques to create link tables and ways to handle synthetic key
 
-ink:
+Link:
 LOAD
 	*,
 	date(subField(%LinkKey, '|', 1), 'M/D/YYYY')	AS  Date,			 
