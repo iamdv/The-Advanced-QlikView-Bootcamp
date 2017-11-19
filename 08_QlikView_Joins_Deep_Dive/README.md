@@ -1,1 +1,1 @@
-Read me
+Understand associative joins vs ANSI joins
