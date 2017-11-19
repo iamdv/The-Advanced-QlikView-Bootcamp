@@ -1,0 +1,57 @@
+Customers:
+LOAD *,
+	[Contact First Name] & ' ' & [Contact Last Name] 		
+										AS		[Contact Full Name];
+
+LOAD 
+	[Customer ID]						AS		%Key_CustomerID,		 
+	Address1, 
+	Address2, 
+	City, 
+	[Contact First Name], 
+	[Contact Last Name], 
+	[Contact Position], 
+	[Contact Title], 
+	Country,
+	[Customer Credit ID], 
+	[Customer ID], 
+	[Customer Name], 
+	[E-mail], 
+	Fax, 
+	[Last Year's Sales], 
+	Phone, 
+	[Postal Code], 
+	Region, 
+	[Web Site]
+FROM [Customers.qvd] (qvd);
+
+
+
+
+Temp_Orders:
+LOAD *,
+	Floor([Required Date])					AS		[%Key_RequireDate]
+	;
+
+LOAD 
+	[Customer ID]						AS		%Key_CustomerID,		
+	[Product ID]							AS		%Key_ProductID,		 
+	%Date								AS		%Key_OrderDate,	 	
+	[Order ID], 
+	[Courier Website], 
+	[Customer ID]						AS		[Customer ID (Fact)], 	
+	[Employee ID]						AS		[Employee ID (Fact)], 		
+	[Order Amount], 
+	[Order Date]							AS		[Order Date (Fact)], 
+	[Payment Received], 
+	PO#, 
+	[Required Date], 
+	[Ship Date], 
+	[Ship Via], 
+	Shipped, 
+	[Product ID]							AS		[Product ID (Fact)], 
+	Quantity, 
+	[Unit Price], 
+	LineSalesAmount
+FROM [Orders_2017*.qvd] (qvd);
+
