@@ -10,7 +10,7 @@ SET TimestampFormat='M/D/YYYY h:mm:ss[.fff] TT';
 SET MonthNames='Jan;Feb;Mar;Apr;May;Jun;Jul;Aug;Sep;Oct;Nov;Dec';
 SET DayNames='Mon;Tue;Wed;Thu;Fri;Sat;Sun';
 
-/*  This incremental QVD builder is for INSERT & UPDATE ONLY  */
+/*  This incremental QVD builder is for INSERT-UPDATE-DELETE*/
 
 
 SET  _qvd_path = 'C:\Advanced_QlikView_Developer\Data\QVD\';
