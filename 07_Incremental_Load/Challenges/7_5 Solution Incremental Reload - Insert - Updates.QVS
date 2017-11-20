@@ -1,0 +1,230 @@
+﻿///$tab Main
+SET ThousandSep=',';
+SET DecimalSep='.';
+SET MoneyThousandSep=',';
+SET MoneyDecimalSep='.';
+SET MoneyFormat='$#,##0.00;($#,##0.00)';
+SET TimeFormat='h:mm:ss TT';
+SET DateFormat='M/D/YYYY';
+SET TimestampFormat='M/D/YYYY h:mm:ss[.fff] TT';
+SET FirstWeekDay=6;
+SET BrokenWeeks=1;
+SET ReferenceDay=0;
+SET FirstMonthOfYear=1;
+SET CollationLocale='en-US';
+SET MonthNames='Jan;Feb;Mar;Apr;May;Jun;Jul;Aug;Sep;Oct;Nov;Dec';
+SET LongMonthNames='January;February;March;April;May;June;July;August;September;October;November;December';
+SET DayNames='Mon;Tue;Wed;Thu;Fri;Sat;Sun';
+SET LongDayNames='Monday;Tuesday;Wednesday;Thursday;Friday;Saturday;Sunday';
+
+set _qvd_path = 'C:\Advanced_QlikView_Developer\Data\QVD\';
+
+set _qvd_name = 'Orders';
+
+set vKeyField = [Order ID];
+
+set vUpdateField = [Order Date];
+
+OLEDB CONNECT32 TO [Provider=Microsoft.Jet.OLEDB.4.0;User ID=Admin;Data Source=C:\Advanced_QlikView_Developer\Data\AccessDB\xtreme.mdb;Mode=Share Deny None;Extended Properties="";Jet OLEDB:System database="";Jet OLEDB:Registry Path="";Jet OLEDB:Database Password="";Jet OLEDB:Engine Type=5;Jet OLEDB:Database Locking Mode=1;Jet OLEDB:Global Partial Bulk Ops=2;Jet OLEDB:Global Bulk Transactions=1;Jet OLEDB:New Database Password="";Jet OLEDB:Create System Database=False;Jet OLEDB:Encrypt Database=False;Jet OLEDB:Don't Copy Locale on Compact=False;Jet OLEDB:Compact Without Replica Repair=False;Jet OLEDB:SFP=False];
+///$tab Full Reload
+// 1. Check if qvd exists? 
+
+let vFileLen = FileSize('$(_qvd_path)$(_qvd_name).qvd');
+
+trace '>> QVD Size: ' $(vFileLen);
+
+// 2. If QVD doesn't exist then perform a full reload
+
+if len('$(vFileLen)') = 0 then
+
+trace 'Full reload begins...';
+
+$(_qvd_name):
+SQL SELECT *
+FROM $(_qvd_name);
+
+
+let vRows = NoOfRows('$(_qvd_name)');
+
+
+// 3. Max Daate field value into a QVD for the future reload
+
+NewKey:
+load
+    num#(max(FieldValue('$(vUpdateField)', RecNo()))) as Key
+AutoGenerate num#(FieldValueCount('$(vUpdateField)'))
+
+;
+
+let vNewKey = peek('Key', 0, 'NewKey')
+
+;
+
+
+let vKeyQVD = 'OrdersMaxKey'
+
+;
+
+$(vKeyQVD):
+load
+    '$(vNewKey)' as MaxKey,
+    '$(vRows)'   as [# of Rows Inserted],
+    date(now())  as [Reload DateTime]
+AutoGenerate(1)   
+;
+
+
+
+
+STORE  $(vKeyQVD)  into $(_qvd_path)$(vKeyQVD).qvd(qvd)
+
+;
+
+drop Table NewKey
+
+;
+    
+    
+
+// 4. Store table data into QVD
+
+RENAME Field 'Order ID' to %Key_OrderID
+
+;
+
+store $(_qvd_name)  into $(_qvd_path)$(_qvd_name).qvd(qvd)
+
+;
+
+drop table $(_qvd_name)
+
+;
+
+//5. Reset variables
+
+LET vNewKey = null();
+LET vMaxKey = Null();
+LET vRows   = null();
+
+exit SCRIPT
+
+;
+///$tab Incremental Reload
+// 1. if QVD exists then perform incremental reload
+
+ELSEIF len('$(vFileLen)') > 0 then
+
+TRACE 'Incremental reload begins...';
+
+
+// 2. Extract Primary Key from the prior reload (stored in a qvd) for the WHERE clause
+
+set vKeyQVD = 'OrdersMaxKey';
+
+$(vKeyQVD):
+load
+   date(MaxKey) as MaxKey
+from 
+$(_qvd_path)$(vKeyQVD).qvd(qvd)
+
+;
+
+let vMaxKey = Peek('MaxKey')
+
+;
+
+trace '>>> Last Max Key value stored:  ' & $(vMaxKey)
+
+;
+
+drop table $(vKeyQVD)
+
+;
+
+
+// 3. Perform incremental reload
+
+$(_qvd_name):
+SQL SELECT *
+FROM $(_qvd_name)
+where [$(vUpdateField)] > #$(vMaxKey)#
+
+;
+
+let vRows = NoOfRows('$(_qvd_name)');
+
+trace 'Total Rows:' $(vRows)
+
+;
+
+NewKey:
+load
+    num#(max(FieldValue('$(vUpdateField)', RecNo()))) as Key
+AutoGenerate num#(FieldValueCount('$(vUpdateField)'))
+
+;
+
+
+// 4. Exit gracefully if no new records found
+
+if $(vRows) = 0 then
+  
+  exit SCRIPT;
+  
+ELSE
+
+
+// 5. Concatenate new records with records from the existing QVD
+
+RENAME Field 'Order ID' to %Key_OrderID
+
+;
+
+Concatenate($(_qvd_name))
+load
+   *
+from 
+$(_qvd_path)$(_qvd_name).qvd(qvd)
+Where not Exists(%Key_OrderID)
+
+;
+
+// 6. Store this table data into QVD
+
+trace 'Storing table data into QVD';
+
+store $(_qvd_name)  into $(_qvd_path)$(_qvd_name).qvd(qvd)
+
+;
+
+// 7. Store max Primary Key ID for the future incremental reload (QVD)
+
+let vNewKey = peek('Key', 0, 'NewKey')
+
+;
+
+
+let vKeyQVD = 'OrdersMaxKey'
+
+;
+
+$(vKeyQVD):
+load
+    '$(vNewKey)' as MaxKey,
+    '$(vRows)'   as [# of Rows Inserted],
+    date(now())  as [Reload DateTime]
+AutoGenerate(1)   
+;
+
+drop table NewKey
+
+;
+
+STORE  $(vKeyQVD)  into $(_qvd_path)$(vKeyQVD).qvd(qvd)
+
+;
+
+drop table $(_qvd_name)
+
+;
+///$tab Cleanup
