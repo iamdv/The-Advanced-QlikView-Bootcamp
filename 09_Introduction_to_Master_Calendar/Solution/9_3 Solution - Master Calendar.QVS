@@ -1,0 +1,359 @@
+﻿///$tab Main
+SET ThousandSep=',';
+SET DecimalSep='.';
+SET MoneyThousandSep=',';
+SET MoneyDecimalSep='.';
+SET MoneyFormat='$#,##0.00;($#,##0.00)';
+SET TimeFormat='h:mm:ss TT';
+SET DateFormat='M/D/YYYY';
+SET TimestampFormat='M/D/YYYY h:mm:ss[.fff] TT';
+SET MonthNames='Jan;Feb;Mar;Apr;May;Jun;Jul;Aug;Sep;Oct;Nov;Dec';
+SET DayNames='Mon;Tue;Wed;Thu;Fri;Sat;Sun';
+
+OLEDB CONNECT32 TO [Provider=Microsoft.Jet.OLEDB.4.0;User ID=Admin;Data Source=C:\Advanced developer training\xtreme.mdb;Mode=Share Deny None;Extended Properties="";Jet OLEDB:System database="";Jet OLEDB:Registry Path="";Jet OLEDB:Database Password="";Jet OLEDB:Engine Type=5;Jet OLEDB:Database Locking Mode=1;Jet OLEDB:Global Partial Bulk Ops=2;Jet OLEDB:Global Bulk Transactions=1;Jet OLEDB:New Database Password="";Jet OLEDB:Create System Database=False;Jet OLEDB:Encrypt Database=False;Jet OLEDB:Don't Copy Locale on Compact=False;Jet OLEDB:Compact Without Replica Repair=False;Jet OLEDB:SFP=False];
+
+
+vToday = addyears(Today(), -12);
+///$tab Facts
+Orders:
+LOAD 
+    `Courier Website`,
+    `Customer ID`,
+    `Employee ID`,
+    `Order Amount`,
+    `Order Date`,
+     floor([Order Date]) AS	%Key_OrderDate,
+     num#(`Order Date`) as %Date,
+    `Order ID`,
+    `Payment Received`,
+    `PO#`,
+    `Required Date`,
+    `Ship Date`,
+    `Ship Via`,
+    Shipped;
+SQL SELECT *
+FROM Orders;
+
+OrderDetail:
+left join(Orders)
+LOAD 
+    `Order ID`,
+    `Product ID`,
+     Quantity,
+    `Unit Price`,
+    `Unit Price` * Quantity as LineSalesAmount
+where exists([Order ID])
+
+;
+SQL SELECT *
+FROM `Orders Detail`;
+
+Totals:
+LOAD Expr1 as [Total Sales],
+    `Order ID`;
+SQL SELECT *
+FROM `List Totals`;
+
+ 
+///$tab Dimensions
+Customers:
+LOAD 
+     Address1,
+     Address2,
+     City,
+    `Contact First Name`,
+    `Contact Last Name`,
+    `Contact Position`,
+    `Contact Title`,
+     Country,
+    `Customer Credit ID`,
+    `Customer ID`,
+    `Customer Name`,
+    `E-mail`,
+     Fax,
+    `Last Year's Sales`,
+     Phone,
+    `Postal Code`,
+     Region,
+    `Web Site`;
+SQL SELECT *
+FROM Customer;
+
+Employees:
+Load *,
+      Year([Last Date]) as FireYear
+      ;
+LOAD 
+    `Birth Date`,
+    `Emergency Contact First Name`,
+    `Emergency Contact Last Name`,
+    `Emergency Contact Phone`,
+    `Emergency Contact Relationship`,
+    `Employee ID`,
+     Extension,
+    `First Name`,
+    `Hire Date`,
+    Year([Hire Date]) as HireYear,
+     date([Hire Date] + [Hire Date] * Rand() * .01) as [Last Date],
+    `Home Phone`,
+    `Last Name`,
+    `First Name` & `Last Name` as [Employee Name],
+     Notes,
+     Photo,
+     Position,
+    `Reports To`,
+     Salary,
+     SSN,
+    `Supervisor ID`;
+SQL SELECT *
+FROM Employee;
+
+EmployeeAddress:
+Load 
+      City as [Employee City],
+      Country as [Employee Country],
+     `Employee ID`,
+     `Postal Code` as [Employee Postal Code],
+      Region as [Employee Region];
+SQL SELECT *
+FROM `Employee Addresses`;
+
+Products:
+LOAD  Color,
+     `M/F`,
+     `Product Class`,
+     `Product ID`,
+     `Product Name`,
+     `Product Type ID`,
+      Size,
+     `Supplier ID`;
+SQL SELECT *
+FROM Product;
+
+ProductType:
+LOAD 
+     Description,
+    `Graphic Image Location`,
+     Picture,
+    `Product Type ID`,
+    `Product Type Name`;
+SQL SELECT *
+FROM `Product Type`;
+
+ 
+
+Manager:
+LOAD 
+    `Employee ID`,
+    `Manager ID`;
+SQL SELECT *
+FROM Manager;
+
+
+Supplier:
+LOAD
+    `Supplier ID`,
+    `Supplier Name`;
+SQL SELECT *
+FROM Supplier;
+
+ 
+
+///$tab Master Calendar Basics
+//DateRange:
+//  LOAD
+//      min(%Key_OrderDate) as MinDate,
+//      max(%Key_OrderDate) as MaxDate
+//  Resident Orders;
+//  
+//LET vMinDate = Peek('MinDate',0,'DateRange');
+//LET vMaxDate = Peek('MaxDate',0,'DateRange');
+//
+//TempCalDate:
+//   LOAD
+//      date($(vMinDate) + RowNo() -1) as D
+//   AutoGenerate $(vMaxDate) - $(vMinDate) + 1;
+//   
+//Calendar:
+//
+//LOAD
+//	 
+//	D AS %Key_OrderDate,
+//
+////	Basic Date Dimensions
+//	Year(D) AS Year,
+//	 
+// 
+////	QtrYear	
+//	dual('Q' & ceil(month(D)/3) & '-' & Year(D),ceil(month(D)/3)+Year(D)*10) as QtrYear,
+//	week(D) AS Week,
+//	weekday(D + 2) AS Weekday,
+////	Weekstart	
+//	WeekStart(D) as Weekstart,
+//	day(D) AS Day,
+//	date(D, 'MM/DD') AS DateMMDD,
+//
+////	Year flags
+//	inyear(D, '$(vToday)', 0) * -1 AS CY,								//Current year
+//	inyear(D, '$(vToday)', -1) * -1 AS FPY,							//First prior year
+//	inyear(D, '$(vToday)', -2) * -1 AS SPY,							//Second prior year	
+//	
+////	Year-to-date flags
+//	inyeartodate(D, '$(vToday)', 0) * -1 AS CYTD,						//Current year-to-date
+//	inyeartodate(D, '$(vToday)', -1) * -1 AS FPYTD,					//First prior year-to-date
+//	inyeartodate(D, '$(vToday)', -2) * -1 AS SPYTD,					//Second prior year-to-date	
+//	
+////	Quarter flags
+//	inquarter(D, '$(vToday)', 0) * -1 AS CQ,							//Current quarter
+//	inquarter(D, '$(vToday)', -4) * -1 AS FPQ,						//First prior quarter, same quarter last year
+//	inquarter(D, '$(vToday)', -8) * -1 AS SPQ,						//Second prior quarter, same quarter two years ago	
+//	
+////	Quarter-to-date flags
+//	inquartertodate(D, '$(vToday)', 0) * -1 AS CQTD,					//Current quarter-to-date
+//	inquartertodate(D, '$(vToday)', -4) * -1 AS FPQTD,				//First prior quarter-to-date, same quarter last year
+//	inquartertodate(D, '$(vToday)', -8) * -1 AS SPQTD,				//Second prior quarter-to-date, same quarter two years ago	
+//	
+////	Month flags
+//	inmonth(D, '$(vToday)', 0) * -1 AS CM,							//Current month
+//	inmonth(D, '$(vToday)', -1) * -1 AS PM,							//Previous month
+//	inmonth(D, '$(vToday)', -12) * -1 AS FPM,							//First prior month, same month last year
+//	inmonth(D, '$(vToday)', -24) * -1 AS SPM,							//Second prior month, same month two years ago	
+//	
+////	Month-to-date flags
+//	inmonthtodate(D, '$(vToday)', 0) * -1 AS CMTD,					//Current month-to-date
+//	inmonthtodate(D, '$(vToday)', -1) * -1 AS PMTD,					//Previous month-to-date	
+//	inmonthtodate(D, '$(vToday)', -12) * -1 AS FPMTD,					//First prior month-to-date, same month last year
+//	inmonthtodate(D, '$(vToday)', -24) * -1 AS SPMTD,					//Second prior month-to-date, same month two years ago		
+//
+////	Week flags (use addmonths() to ensure proper week)
+////	Use inlunarweek() if the you want weeks (7-day periods) starting from January 1. This is different from the inweek() function
+//	inweek(D, '$(vToday)', 0) * -1 AS CW,								//Current week
+//	inweek(D, addmonths('$(vToday)', -12), 0) * -1 AS FPW,			//First prior quarter, same week last year	
+//	inweek(D, addmonths('$(vToday)', -24), 0) * -1 AS SPW,			//Second prior quarter, same week two years ago
+//	
+////	Week-to-date flags (use addmonths() to ensure proper week)
+////	Use inlunarweek() if the you want weeks (7-day periods) starting from January 1. This is different from the inweek() function
+//	inweektodate(D, '$(vToday)', 0) * -1 AS CWTD,						//Current week-to-date
+//	inweektodate(D, addmonths('$(vToday)', -12), 0) * -1 AS FPWTD,	//First prior week-to-date
+//	inweektodate(D, addmonths('$(vToday)', -24), 0) * -1 AS SPWTD,	//Second prior week-to-date	
+//
+////	Day flags (use addmonths() to ensure proper day)
+//	inday(D, '$(vToday)', 0) * -1 AS CD,								//Current day
+//	inday(D, addmonths('$(vToday)', -12), 0) * -1 AS FPD,				//First prior quarter, same day last year	
+//	inday(D, addmonths('$(vToday)', -24), 0) * -1 AS SPD,				//Second prior quarter, same day two years ago
+//
+////	Additional Week Flags
+//	inweek(D, '$(vToday)', -1) * -1 AS W1,							//One week ago
+//	inweek(D, '$(vToday)', -2) * -1 AS W2,							//Two weeks ago
+//	inweek(D, '$(vToday)', -3) * -1 AS W3,							//Three weeks ago
+//	inweek(D, '$(vToday)', -4) * -1 AS W4,							//Four weeks ago
+//	inweektodate(D, '$(vToday)', -1) * -1 AS W1TD,					//One week ago to date
+//	inweektodate(D, '$(vToday)', -2) * -1 AS W2TD,					//Two weeks ago to date
+//	inweektodate(D, '$(vToday)', -3) * -1 AS W3TD,					//Three weeks ago to date
+//	inweektodate(D, '$(vToday)', -4) * -1 AS W4TD						//Four weeks ago to date
+//	
+//Resident TempCalDate
+//
+//;
+//
+//drop table TempCalDate
+//
+//;
+///$tab Efficient Master Calendar
+Calendar:
+LOAD
+	 
+	D AS %Key_OrderDate,
+
+//	Basic Date Dimensions
+	Year(D) AS Year,
+	 
+ 
+//	QtrYear	
+	dual('Q' & ceil(month(D)/3) & '-' & Year(D),ceil(month(D)/3)+Year(D)*10) as QtrYear,
+	week(D) AS Week,
+	weekday(D + 2) AS Weekday,
+//	Weekstart	
+	WeekStart(D) as Weekstart,
+	day(D) AS Day,
+	date(D, 'MM/DD') AS DateMMDD,
+
+//	Year flags
+	inyear(D, '$(vToday)', 0) * -1 AS CY,								//Current year
+	inyear(D, '$(vToday)', -1) * -1 AS FPY,							//First prior year
+	inyear(D, '$(vToday)', -2) * -1 AS SPY,							//Second prior year	
+	
+//	Year-to-date flags
+	inyeartodate(D, '$(vToday)', 0) * -1 AS CYTD,						//Current year-to-date
+	inyeartodate(D, '$(vToday)', -1) * -1 AS FPYTD,					//First prior year-to-date
+	inyeartodate(D, '$(vToday)', -2) * -1 AS SPYTD,					//Second prior year-to-date	
+	
+//	Quarter flags
+	inquarter(D, '$(vToday)', 0) * -1 AS CQ,							//Current quarter
+	inquarter(D, '$(vToday)', -4) * -1 AS FPQ,						//First prior quarter, same quarter last year
+	inquarter(D, '$(vToday)', -8) * -1 AS SPQ,						//Second prior quarter, same quarter two years ago	
+	
+//	Quarter-to-date flags
+	inquartertodate(D, '$(vToday)', 0) * -1 AS CQTD,					//Current quarter-to-date
+	inquartertodate(D, '$(vToday)', -4) * -1 AS FPQTD,				//First prior quarter-to-date, same quarter last year
+	inquartertodate(D, '$(vToday)', -8) * -1 AS SPQTD,				//Second prior quarter-to-date, same quarter two years ago	
+	
+//	Month flags
+	inmonth(D, '$(vToday)', 0) * -1 AS CM,							//Current month
+	inmonth(D, '$(vToday)', -1) * -1 AS PM,							//Previous month
+	inmonth(D, '$(vToday)', -12) * -1 AS FPM,							//First prior month, same month last year
+	inmonth(D, '$(vToday)', -24) * -1 AS SPM,							//Second prior month, same month two years ago	
+	
+//	Month-to-date flags
+	inmonthtodate(D, '$(vToday)', 0) * -1 AS CMTD,					//Current month-to-date
+	inmonthtodate(D, '$(vToday)', -1) * -1 AS PMTD,					//Previous month-to-date	
+	inmonthtodate(D, '$(vToday)', -12) * -1 AS FPMTD,					//First prior month-to-date, same month last year
+	inmonthtodate(D, '$(vToday)', -24) * -1 AS SPMTD,					//Second prior month-to-date, same month two years ago		
+
+//	Week flags (use addmonths() to ensure proper week)
+//	Use inlunarweek() if the you want weeks (7-day periods) starting from January 1. This is different from the inweek() function
+	inweek(D, '$(vToday)', 0) * -1 AS CW,								//Current week
+	inweek(D, addmonths('$(vToday)', -12), 0) * -1 AS FPW,			//First prior quarter, same week last year	
+	inweek(D, addmonths('$(vToday)', -24), 0) * -1 AS SPW,			//Second prior quarter, same week two years ago
+	
+//	Week-to-date flags (use addmonths() to ensure proper week)
+//	Use inlunarweek() if the you want weeks (7-day periods) starting from January 1. This is different from the inweek() function
+	inweektodate(D, '$(vToday)', 0) * -1 AS CWTD,						//Current week-to-date
+	inweektodate(D, addmonths('$(vToday)', -12), 0) * -1 AS FPWTD,	//First prior week-to-date
+	inweektodate(D, addmonths('$(vToday)', -24), 0) * -1 AS SPWTD,	//Second prior week-to-date	
+
+//	Day flags (use addmonths() to ensure proper day)
+	inday(D, '$(vToday)', 0) * -1 AS CD,								//Current day
+	inday(D, addmonths('$(vToday)', -12), 0) * -1 AS FPD,				//First prior quarter, same day last year	
+	inday(D, addmonths('$(vToday)', -24), 0) * -1 AS SPD,				//Second prior quarter, same day two years ago
+
+//	Additional Week Flags
+	inweek(D, '$(vToday)', -1) * -1 AS W1,							//One week ago
+	inweek(D, '$(vToday)', -2) * -1 AS W2,							//Two weeks ago
+	inweek(D, '$(vToday)', -3) * -1 AS W3,							//Three weeks ago
+	inweek(D, '$(vToday)', -4) * -1 AS W4,							//Four weeks ago
+	inweektodate(D, '$(vToday)', -1) * -1 AS W1TD,					//One week ago to date
+	inweektodate(D, '$(vToday)', -2) * -1 AS W2TD,					//Two weeks ago to date
+	inweektodate(D, '$(vToday)', -3) * -1 AS W3TD,					//Three weeks ago to date
+	inweektodate(D, '$(vToday)', -4) * -1 AS W4TD						//Four weeks ago to date
+	
+;
+
+
+load
+   date(MinDate + IterNo() -1) as D
+While (MinDate + IterNo() -1) <= MaxDate
+
+;
+
+
+load
+    min(num(FieldValue('%Key_OrderDate', RecNo()))) as MinDate,
+    max(num(FieldValue('%Key_OrderDate', RecNo()))) as MaxDate
+AutoGenerate(num(FieldValueCount('%Key_OrderDate')))
+
+;
+
+
+
+    
