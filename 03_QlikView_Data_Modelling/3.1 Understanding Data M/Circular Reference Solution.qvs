@@ -1,0 +1,30 @@
+NationalTeams:
+LOAD * INLINE [
+    Country, Team
+    Germany, DM
+    Italy, Azzurri
+    Spain, LR
+];
+
+Clubs:
+LOAD * INLINE [
+    City, Team
+    Barcelona, Barcelona
+    Turlin, Juventus
+    Hamburg, Atlona
+    Milano, Mailan
+    Rome, Lazio
+];
+
+CountryCities:
+LOAD * INLINE [
+    Country, City
+    Germany, Hamburg
+    Germany, Munich
+    Italy, Milano
+    Italy, Rome
+    Italy, Turin
+    Spain, Barcelona
+    Spain, Madrid
+];
+
