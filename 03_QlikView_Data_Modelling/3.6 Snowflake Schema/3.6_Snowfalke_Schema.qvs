@@ -1,0 +1,208 @@
+///$tab Main
+SET ThousandSep=',';
+SET DecimalSep='.';
+SET MoneyThousandSep=',';
+SET MoneyDecimalSep='.';
+SET MoneyFormat='£#,##0.00;-£#,##0.00';
+SET TimeFormat='hh:mm:ss';
+SET DateFormat='DD-MMM-YYYY';
+SET TimestampFormat='DD-MMM-YYYY hh:mm:ss[.fff]';
+SET FirstWeekDay=0;
+SET BrokenWeeks=0;
+SET ReferenceDay=4;
+SET FirstMonthOfYear=1;
+SET CollationLocale='en-GB';
+SET MonthNames='Jan;Feb;Mar;Apr;May;Jun;Jul;Aug;Sep;Oct;Nov;Dec';
+SET LongMonthNames='January;February;March;April;May;June;July;August;September;October;November;December';
+SET DayNames='Mon;Tue;Wed;Thu;Fri;Sat;Sun';
+SET LongDayNames='Monday;Tuesday;Wednesday;Thursday;Friday;Saturday;Sunday';
+
+
+SET HidePrefix = '%';
+
+SET vQVDPath = 'C:\Users\DV\Google Drive\Courses\Advanced Developer\Data\Data\';
+///$tab CONFIG
+///$tab META DATA
+///$tab FACTS
+FACT_Orders:
+LOAD 
+	[Customer ID]					AS			%KEY_CustomerID, 
+	[Employee ID]					AS			%KEY_EmployeeID, 
+	Floor(%Date)						AS			%KEY_Date, 
+	[Product ID]						AS			%KEY_ProductID,	 
+	
+	
+	[Order ID], 
+	[Courier Website], 
+	[Customer ID]					AS			[Customer ID (Fact)], 
+	[Employee ID]					AS			[Employee ID (Fact)], 
+	[Order Amount], 
+	[Order Date], 
+	[Payment Received], 
+	PO#, [Required Date], 
+	[Ship Date], 
+	[Ship Via], 
+	Shipped, 
+	[Product ID]						AS			[Product ID (Fact)], 
+	Quantity, 
+	[Unit Price], 
+	LineSalesAmount
+FROM $(vQVDPath)Orders.qvd (qvd);
+
+///$tab Dim - Master Calendar
+Calendar:
+LOAD 
+	Floor([Order Date])					AS		%KEY_Date,	
+	[Order Date]							AS		CalendarDate,		 
+	Year, 
+	QtrYear, 
+	Week, 
+	Weekday, 
+	Weekstart, 
+	Day, 
+	DateMMDD, 
+	CY, 
+	FPY, 
+	SPY, 
+	CYTD, 
+	FPYTD, 
+	SPYTD, 
+	CQ, 
+	FPQ, 
+	SPQ, 
+	CQTD, 
+	FPQTD, 
+	SPQTD, 
+	CM, 
+	PM, 
+	FPM, 
+	SPM, 
+	CMTD, 
+	PMTD, 
+	FPMTD, 
+	SPMTD, 
+	CW, 
+	FPW, 
+	SPW, 
+	CWTD, 
+	FPWTD,
+	SPWTD, 
+	CD, 
+	FPD, 
+	SPD, 
+	W1, 
+	W2, 
+	W3, 
+	W4, 
+	W1TD, 
+	W2TD, 
+	W3TD, 
+	W4TD
+FROM $(vQVDPath)MasterCalendar.qvd (qvd);
+
+///$tab DIM - Customer
+Customers:
+LOAD 
+	[Customer ID]						AS		%KEY_CustomerID,		 
+	Address1, 
+	Address2, 
+	City, 
+	[Contact First Name], 
+	[Contact Last Name], 
+	[Contact Position], 
+	[Contact Title], 
+	Country,
+	[Customer Credit ID], 
+	[Customer ID], 
+	[Customer Name], 
+	[E-mail], 
+	Fax, 
+	[Last Year's Sales], 
+	Phone, 
+	[Postal Code], 
+	Region, 
+	[Web Site]
+FROM $(vQVDPath)Customers.qvd (qvd);
+
+///$tab DIM - Employee
+Employees:
+LOAD 
+	[Employee ID]						AS		%KEY_EmployeeID,		 
+	[Birth Date], 
+	[Emergency Contact First Name], 
+	[Emergency Contact Last Name], 
+	[Emergency Contact Phone], 
+	[Emergency Contact Relationship], 
+	[Employee ID], 
+	Extension, 
+	[First Name], 
+	[Hire Date], 
+	HireYear, 
+	[Last Date],
+	[Home Phone], 
+	[Last Name],
+	[Employee Name], 
+	Notes, 
+	Photo, 
+	Position, 
+	[Reports To], 
+	Salary, 
+	SSN, 
+	[Supervisor ID], 
+	FireYear
+FROM $(vQVDPath)Employees.qvd (qvd);
+///$tab DIM - Employee Address
+EmployeeAddress:
+LOAD 
+	[Employee ID]						AS		%KEY_EmployeeID,	
+	[Employee City], 
+	[Employee Country], 
+	[Employee Postal Code], 
+	[Employee Region]
+FROM $(vQVDPath)EmployeeAddress.qvd (qvd);
+
+///$tab DIM - Team
+Teams:
+LOAD 
+	[Employee ID]						AS		%KEY_EmployeeID,		 
+	[Employee Name1], 
+	[Employee Name2], 
+	[Employee Name3], 
+	Manager, 
+	[Employee Hierarchy], 
+	[Reports To]							AS		[Reports To (Team)], 
+	[Employee Name]						AS		[Employee Name (Team)]
+FROM $(vQVDPath)Teams.qvd (qvd);
+
+	
+///$tab DIM - Supplier
+Suppliers:
+LOAD 
+	[Supplier ID]							AS		%KEY_SupplierID,
+	[Supplier Name]
+FROM $(vQVDPath)Supplier.qvd (qvd);
+///$tab DIM - Products
+Products:
+LOAD 
+	[Product ID]							AS		%KEY_ProductID,	
+	[Product Type ID]						AS		%KEY_ProductTypeID, 	
+	[Supplier ID]							AS		%KEY_SupplierID,
+	Color, 
+	[M/F], 
+	[Product Class],
+	[Product ID], 
+	[Product Name], 
+	[Product Type ID], 
+	Size, 
+	[Supplier ID]
+FROM $(vQVDPath)Products.qvd (qvd);
+
+///$tab DIM - Product Description
+ProductDescription:
+LOAD 
+	[Product Type ID]						AS		%KEY_ProductTypeID,	
+	Description, 
+	[Graphic Image Location], 
+	Picture, 
+	[Product Type Name]
+FROM $(vQVDPath)ProductType.qvd (qvd);
