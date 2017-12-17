@@ -1,0 +1,33 @@
+SET ThousandSep=',';
+SET DecimalSep='.';
+SET MoneyThousandSep=',';
+SET MoneyDecimalSep='.';
+SET MoneyFormat='£#,##0.00;-£#,##0.00';
+SET TimeFormat='hh:mm:ss';
+SET DateFormat='DD-MMM-YYYY';
+SET TimestampFormat='DD-MMM-YYYY hh:mm:ss[.fff]';
+SET FirstWeekDay=0;
+SET BrokenWeeks=0;
+SET ReferenceDay=4;
+SET FirstMonthOfYear=1;
+SET CollationLocale='en-GB';
+SET MonthNames='Jan;Feb;Mar;Apr;May;Jun;Jul;Aug;Sep;Oct;Nov;Dec';
+SET LongMonthNames='January;February;March;April;May;June;July;August;September;October;November;December';
+SET DayNames='Mon;Tue;Wed;Thu;Fri;Sat;Sun';
+SET LongDayNames='Monday;Tuesday;Wednesday;Thursday;Friday;Saturday;Sunday';
+
+SET HidePrefix = '%';
+
+
+
+Teams:
+LOAD 
+	[Employee ID]					AS		%Key_EmployeeID,	 
+	[Employee Name1], 
+	[Employee Name2], 
+	[Employee Name3], 
+	Manager, 
+	[Employee Hierarchy], 
+	[Reports To]						AS		[Reports To (Team)], 
+	[Employee Name]					AS		[Employee Name (Team)]
+FROM [C:\Users\DV\Google Drive\Courses\Advanced Developer\Data\Data\Teams.qvd] (qvd);
