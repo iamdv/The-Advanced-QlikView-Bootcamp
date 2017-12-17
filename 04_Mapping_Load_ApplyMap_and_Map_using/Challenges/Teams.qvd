@@ -1,0 +1,436 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+ <QvdTableHeader>
+   <QvBuildNo>50504</QvBuildNo>
+   <CreatorDoc>C:\Advanced developer training\QVD Builder.qvw</CreatorDoc>
+   <CreateUtcTime>2017-07-30 22:17:48</CreateUtcTime>
+   <SourceCreateUtcTime></SourceCreateUtcTime>
+   <SourceFileUtcTime></SourceFileUtcTime>
+   <SourceFileSize>-1</SourceFileSize>
+   <StaleUtcTime></StaleUtcTime>
+   <TableName>Teams</TableName>
+   <Fields>
+     <QvdFieldHeader>
+       <FieldName>Employee Name1</FieldName>
+       <BitOffset>30</BitOffset>
+       <BitWidth>2</BitWidth>
+       <Bias>0</Bias>
+       <NumberFormat>
+         <Type>UNKNOWN</Type>
+         <nDec>0</nDec>
+         <UseThou>0</UseThou>
+         <Fmt></Fmt>
+         <Dec></Dec>
+         <Thou></Thou>
+       </NumberFormat>
+       <NoOfSymbols>2</NoOfSymbols>
+       <Offset>0</Offset>
+       <Length>30</Length>
+       <Comment></Comment>
+       <Tags></Tags>
+     </QvdFieldHeader>
+     <QvdFieldHeader>
+       <FieldName>Employee Name2</FieldName>
+       <BitOffset>0</BitOffset>
+       <BitWidth>8</BitWidth>
+       <Bias>-2</Bias>
+       <NumberFormat>
+         <Type>UNKNOWN</Type>
+         <nDec>0</nDec>
+         <UseThou>0</UseThou>
+         <Fmt></Fmt>
+         <Dec></Dec>
+         <Thou></Thou>
+       </NumberFormat>
+       <NoOfSymbols>7</NoOfSymbols>
+       <Offset>30</Offset>
+       <Length>107</Length>
+       <Comment></Comment>
+       <Tags></Tags>
+     </QvdFieldHeader>
+     <QvdFieldHeader>
+       <FieldName>Employee Name3</FieldName>
+       <BitOffset>20</BitOffset>
+       <BitWidth>4</BitWidth>
+       <Bias>-2</Bias>
+       <NumberFormat>
+         <Type>UNKNOWN</Type>
+         <nDec>0</nDec>
+         <UseThou>0</UseThou>
+         <Fmt></Fmt>
+         <Dec></Dec>
+         <Thou></Thou>
+       </NumberFormat>
+       <NoOfSymbols>6</NoOfSymbols>
+       <Offset>137</Offset>
+       <Length>85</Length>
+       <Comment></Comment>
+       <Tags></Tags>
+     </QvdFieldHeader>
+     <QvdFieldHeader>
+       <FieldName>Manager</FieldName>
+       <BitOffset>24</BitOffset>
+       <BitWidth>3</BitWidth>
+       <Bias>-2</Bias>
+       <NumberFormat>
+         <Type>UNKNOWN</Type>
+         <nDec>0</nDec>
+         <UseThou>0</UseThou>
+         <Fmt></Fmt>
+         <Dec></Dec>
+         <Thou></Thou>
+       </NumberFormat>
+       <NoOfSymbols>4</NoOfSymbols>
+       <Offset>222</Offset>
+       <Length>58</Length>
+       <Comment></Comment>
+       <Tags></Tags>
+     </QvdFieldHeader>
+     <QvdFieldHeader>
+       <FieldName>Employee Hierarchy</FieldName>
+       <BitOffset>8</BitOffset>
+       <BitWidth>4</BitWidth>
+       <Bias>0</Bias>
+       <NumberFormat>
+         <Type>UNKNOWN</Type>
+         <nDec>0</nDec>
+         <UseThou>0</UseThou>
+         <Fmt></Fmt>
+         <Dec></Dec>
+         <Thou></Thou>
+       </NumberFormat>
+       <NoOfSymbols>15</NoOfSymbols>
+       <Offset>280</Offset>
+       <Length>477</Length>
+       <Comment></Comment>
+       <Tags></Tags>
+     </QvdFieldHeader>
+     <QvdFieldHeader>
+       <FieldName>Employee ID</FieldName>
+       <BitOffset>12</BitOffset>
+       <BitWidth>4</BitWidth>
+       <Bias>0</Bias>
+       <NumberFormat>
+         <Type>INTEGER</Type>
+         <nDec>0</nDec>
+         <UseThou>0</UseThou>
+         <Fmt></Fmt>
+         <Dec>.</Dec>
+         <Thou>,</Thou>
+       </NumberFormat>
+       <NoOfSymbols>15</NoOfSymbols>
+       <Offset>757</Offset>
+       <Length>75</Length>
+       <Comment></Comment>
+       <Tags></Tags>
+     </QvdFieldHeader>
+     <QvdFieldHeader>
+       <FieldName>Reports To</FieldName>
+       <BitOffset>27</BitOffset>
+       <BitWidth>3</BitWidth>
+       <Bias>-2</Bias>
+       <NumberFormat>
+         <Type>INTEGER</Type>
+         <nDec>0</nDec>
+         <UseThou>0</UseThou>
+         <Fmt></Fmt>
+         <Dec>.</Dec>
+         <Thou>,</Thou>
+       </NumberFormat>
+       <NoOfSymbols>4</NoOfSymbols>
+       <Offset>832</Offset>
+       <Length>20</Length>
+       <Comment></Comment>
+       <Tags></Tags>
+     </QvdFieldHeader>
+     <QvdFieldHeader>
+       <FieldName>Employee Name</FieldName>
+       <BitOffset>16</BitOffset>
+       <BitWidth>4</BitWidth>
+       <Bias>0</Bias>
+       <NumberFormat>
+         <Type>UNKNOWN</Type>
+         <nDec>0</nDec>
+         <UseThou>0</UseThou>
+         <Fmt></Fmt>
+         <Dec></Dec>
+         <Thou></Thou>
+       </NumberFormat>
+       <NoOfSymbols>15</NoOfSymbols>
+       <Offset>852</Offset>
+       <Length>222</Length>
+       <Comment></Comment>
+       <Tags></Tags>
+     </QvdFieldHeader>
+   </Fields>
+   <Compression></Compression>
+   <RecordByteSize>4</RecordByteSize>
+   <NoOfRecords>15</NoOfRecords>
+   <Offset>1074</Offset>
+   <Length>60</Length>
+   <Lineage>
+     <LineageInfo>
+       <Discriminator>Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\Advanced developer training\xtreme.mdb;Mode=Share Deny None;Extended Properties;Jet OLEDB:System database;Jet OLEDB:Registry Path;Jet OLEDB:Database Password;Jet OLEDB:Engine Type=5;Jet OLEDB:Database Locking Mode=1;Jet OLEDB:Global Partial Bulk Ops=2;Jet OLEDB:Global Bulk Transactions=1;Jet OLEDB:New Database Password;Jet OLEDB:Create System Database=False;Jet OLEDB:Encrypt Database=False;Jet OLEDB:Don't Copy Locale on Compact=False;Jet OLEDB:Compact Without Replica Repair=False;Jet OLEDB:SFP=False;</Discriminator>
+       <Statement>Customers:
+LOAD 
+     Address1,
+     Address2,
+     City,
+    `Contact First Name`,
+    `Contact Last Name`,
+    `Contact Position`,
+    `Contact Title`,
+     Country,
+    `Customer Credit ID`,
+    `Customer ID`,
+    `Customer Name`,
+    `E-mail`,
+     Fax,
+    `Last Year's Sales`,
+     Phone,
+    `Postal Code`,
+     Region,
+    `Web Site`;SQL SELECT *
+FROM Customer</Statement>
+     </LineageInfo>
+     <LineageInfo>
+       <Discriminator>Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\Advanced developer training\xtreme.mdb;Mode=Share Deny None;Extended Properties;Jet OLEDB:System database;Jet OLEDB:Registry Path;Jet OLEDB:Database Password;Jet OLEDB:Engine Type=5;Jet OLEDB:Database Locking Mode=1;Jet OLEDB:Global Partial Bulk Ops=2;Jet OLEDB:Global Bulk Transactions=1;Jet OLEDB:New Database Password;Jet OLEDB:Create System Database=False;Jet OLEDB:Encrypt Database=False;Jet OLEDB:Don't Copy Locale on Compact=False;Jet OLEDB:Compact Without Replica Repair=False;Jet OLEDB:SFP=False;</Discriminator>
+       <Statement>EmployeeAddress:
+Load 
+      City as [Employee City],
+      Country as [Employee Country],
+     `Employee ID`,
+     `Postal Code` as [Employee Postal Code],
+      Region as [Employee Region];SQL SELECT *
+FROM `Employee Addresses`</Statement>
+     </LineageInfo>
+     <LineageInfo>
+       <Discriminator>Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\Advanced developer training\xtreme.mdb;Mode=Share Deny None;Extended Properties;Jet OLEDB:System database;Jet OLEDB:Registry Path;Jet OLEDB:Database Password;Jet OLEDB:Engine Type=5;Jet OLEDB:Database Locking Mode=1;Jet OLEDB:Global Partial Bulk Ops=2;Jet OLEDB:Global Bulk Transactions=1;Jet OLEDB:New Database Password;Jet OLEDB:Create System Database=False;Jet OLEDB:Encrypt Database=False;Jet OLEDB:Don't Copy Locale on Compact=False;Jet OLEDB:Compact Without Replica Repair=False;Jet OLEDB:SFP=False;</Discriminator>
+       <Statement>Employees:
+Load *,
+      Year([Last Date]) as FireYear
+      ;LOAD 
+    `Birth Date`,
+    `Emergency Contact First Name`,
+    `Emergency Contact Last Name`,
+    `Emergency Contact Phone`,
+    `Emergency Contact Relationship`,
+    `Employee ID`,
+     Extension,
+    `First Name`,
+    `Hire Date`,
+    Year([Hire Date]) as HireYear,
+     date([Hire Date] + [Hire Date] * Rand() * .01) as [Last Date],
+    `Home Phone`,
+    `Last Name`,
+    `First Name` &amp; `Last Name` as [Employee Name],
+     Notes,
+     Photo,
+     Position,
+    `Reports To`,
+     Salary,
+     SSN,
+    `Supervisor ID`;SQL SELECT *
+FROM Employee</Statement>
+     </LineageInfo>
+     <LineageInfo>
+       <Discriminator>Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\Advanced developer training\xtreme.mdb;Mode=Share Deny None;Extended Properties;Jet OLEDB:System database;Jet OLEDB:Registry Path;Jet OLEDB:Database Password;Jet OLEDB:Engine Type=5;Jet OLEDB:Database Locking Mode=1;Jet OLEDB:Global Partial Bulk Ops=2;Jet OLEDB:Global Bulk Transactions=1;Jet OLEDB:New Database Password;Jet OLEDB:Create System Database=False;Jet OLEDB:Encrypt Database=False;Jet OLEDB:Don't Copy Locale on Compact=False;Jet OLEDB:Compact Without Replica Repair=False;Jet OLEDB:SFP=False;</Discriminator>
+       <Statement>LOAD 
+    `Birth Date`,
+    `Emergency Contact First Name`,
+    `Emergency Contact Last Name`,
+    `Emergency Contact Phone`,
+    `Emergency Contact Relationship`,
+    `Employee ID`,
+     Extension,
+    `First Name`,
+    `Hire Date`,
+    Year([Hire Date]) as HireYear,
+     date([Hire Date] + [Hire Date] * Rand() * .01) as [Last Date],
+    `Home Phone`,
+    `Last Name`,
+    `First Name` &amp; `Last Name` as [Employee Name],
+     Notes,
+     Photo,
+     Position,
+    `Reports To`,
+     Salary,
+     SSN,
+    `Supervisor ID`;SQL SELECT *
+FROM Employee</Statement>
+     </LineageInfo>
+     <LineageInfo>
+       <Discriminator>Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\Advanced developer training\xtreme.mdb;Mode=Share Deny None;Extended Properties;Jet OLEDB:System database;Jet OLEDB:Registry Path;Jet OLEDB:Database Password;Jet OLEDB:Engine Type=5;Jet OLEDB:Database Locking Mode=1;Jet OLEDB:Global Partial Bulk Ops=2;Jet OLEDB:Global Bulk Transactions=1;Jet OLEDB:New Database Password;Jet OLEDB:Create System Database=False;Jet OLEDB:Encrypt Database=False;Jet OLEDB:Don't Copy Locale on Compact=False;Jet OLEDB:Compact Without Replica Repair=False;Jet OLEDB:SFP=False;</Discriminator>
+       <Statement>Manager:
+LOAD 
+    `Employee ID`,
+    `Manager ID`;SQL SELECT *
+FROM Manager</Statement>
+     </LineageInfo>
+     <LineageInfo>
+       <Discriminator>Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\Advanced developer training\xtreme.mdb;Mode=Share Deny None;Extended Properties;Jet OLEDB:System database;Jet OLEDB:Registry Path;Jet OLEDB:Database Password;Jet OLEDB:Engine Type=5;Jet OLEDB:Database Locking Mode=1;Jet OLEDB:Global Partial Bulk Ops=2;Jet OLEDB:Global Bulk Transactions=1;Jet OLEDB:New Database Password;Jet OLEDB:Create System Database=False;Jet OLEDB:Encrypt Database=False;Jet OLEDB:Don't Copy Locale on Compact=False;Jet OLEDB:Compact Without Replica Repair=False;Jet OLEDB:SFP=False;</Discriminator>
+       <Statement>OrderDetail:
+left join(Orders)
+LOAD 
+    `Order ID`,
+    `Product ID`,
+     Quantity,
+    `Unit Price`,
+    `Unit Price` * Quantity as LineSalesAmount
+where exists([Order ID])
+
+;SQL SELECT *
+FROM `Orders Detail`</Statement>
+     </LineageInfo>
+     <LineageInfo>
+       <Discriminator>Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\Advanced developer training\xtreme.mdb;Mode=Share Deny None;Extended Properties;Jet OLEDB:System database;Jet OLEDB:Registry Path;Jet OLEDB:Database Password;Jet OLEDB:Engine Type=5;Jet OLEDB:Database Locking Mode=1;Jet OLEDB:Global Partial Bulk Ops=2;Jet OLEDB:Global Bulk Transactions=1;Jet OLEDB:New Database Password;Jet OLEDB:Create System Database=False;Jet OLEDB:Encrypt Database=False;Jet OLEDB:Don't Copy Locale on Compact=False;Jet OLEDB:Compact Without Replica Repair=False;Jet OLEDB:SFP=False;</Discriminator>
+       <Statement>Orders:
+LOAD 
+    `Courier Website`,
+    `Customer ID`,
+    `Employee ID`,
+    `Order Amount`,
+    `Order Date`,
+     Date#(`Order Date`) as %Date,
+    `Order ID`,
+    `Payment Received`,
+    `PO#`,
+    `Required Date`,
+    `Ship Date`,
+    `Ship Via`,
+    Shipped;SQL SELECT *
+FROM Orders</Statement>
+     </LineageInfo>
+     <LineageInfo>
+       <Discriminator>Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\Advanced developer training\xtreme.mdb;Mode=Share Deny None;Extended Properties;Jet OLEDB:System database;Jet OLEDB:Registry Path;Jet OLEDB:Database Password;Jet OLEDB:Engine Type=5;Jet OLEDB:Database Locking Mode=1;Jet OLEDB:Global Partial Bulk Ops=2;Jet OLEDB:Global Bulk Transactions=1;Jet OLEDB:New Database Password;Jet OLEDB:Create System Database=False;Jet OLEDB:Encrypt Database=False;Jet OLEDB:Don't Copy Locale on Compact=False;Jet OLEDB:Compact Without Replica Repair=False;Jet OLEDB:SFP=False;</Discriminator>
+       <Statement>ProductType:
+LOAD 
+     Description,
+    `Graphic Image Location`,
+     Picture,
+    `Product Type ID`,
+    `Product Type Name`;SQL SELECT *
+FROM `Product Type`</Statement>
+     </LineageInfo>
+     <LineageInfo>
+       <Discriminator>Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\Advanced developer training\xtreme.mdb;Mode=Share Deny None;Extended Properties;Jet OLEDB:System database;Jet OLEDB:Registry Path;Jet OLEDB:Database Password;Jet OLEDB:Engine Type=5;Jet OLEDB:Database Locking Mode=1;Jet OLEDB:Global Partial Bulk Ops=2;Jet OLEDB:Global Bulk Transactions=1;Jet OLEDB:New Database Password;Jet OLEDB:Create System Database=False;Jet OLEDB:Encrypt Database=False;Jet OLEDB:Don't Copy Locale on Compact=False;Jet OLEDB:Compact Without Replica Repair=False;Jet OLEDB:SFP=False;</Discriminator>
+       <Statement>Products:
+LOAD  Color,
+     `M/F`,
+     `Product Class`,
+     `Product ID`,
+     `Product Name`,
+     `Product Type ID`,
+      Size,
+     `Supplier ID`;SQL SELECT *
+FROM Product</Statement>
+     </LineageInfo>
+     <LineageInfo>
+       <Discriminator>Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\Advanced developer training\xtreme.mdb;Mode=Share Deny None;Extended Properties;Jet OLEDB:System database;Jet OLEDB:Registry Path;Jet OLEDB:Database Password;Jet OLEDB:Engine Type=5;Jet OLEDB:Database Locking Mode=1;Jet OLEDB:Global Partial Bulk Ops=2;Jet OLEDB:Global Bulk Transactions=1;Jet OLEDB:New Database Password;Jet OLEDB:Create System Database=False;Jet OLEDB:Encrypt Database=False;Jet OLEDB:Don't Copy Locale on Compact=False;Jet OLEDB:Compact Without Replica Repair=False;Jet OLEDB:SFP=False;</Discriminator>
+       <Statement>SQL SELECT *
+FROM Customer</Statement>
+     </LineageInfo>
+     <LineageInfo>
+       <Discriminator>Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\Advanced developer training\xtreme.mdb;Mode=Share Deny None;Extended Properties;Jet OLEDB:System database;Jet OLEDB:Registry Path;Jet OLEDB:Database Password;Jet OLEDB:Engine Type=5;Jet OLEDB:Database Locking Mode=1;Jet OLEDB:Global Partial Bulk Ops=2;Jet OLEDB:Global Bulk Transactions=1;Jet OLEDB:New Database Password;Jet OLEDB:Create System Database=False;Jet OLEDB:Encrypt Database=False;Jet OLEDB:Don't Copy Locale on Compact=False;Jet OLEDB:Compact Without Replica Repair=False;Jet OLEDB:SFP=False;</Discriminator>
+       <Statement>SQL SELECT *
+FROM Employee</Statement>
+     </LineageInfo>
+     <LineageInfo>
+       <Discriminator>Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\Advanced developer training\xtreme.mdb;Mode=Share Deny None;Extended Properties;Jet OLEDB:System database;Jet OLEDB:Registry Path;Jet OLEDB:Database Password;Jet OLEDB:Engine Type=5;Jet OLEDB:Database Locking Mode=1;Jet OLEDB:Global Partial Bulk Ops=2;Jet OLEDB:Global Bulk Transactions=1;Jet OLEDB:New Database Password;Jet OLEDB:Create System Database=False;Jet OLEDB:Encrypt Database=False;Jet OLEDB:Don't Copy Locale on Compact=False;Jet OLEDB:Compact Without Replica Repair=False;Jet OLEDB:SFP=False;</Discriminator>
+       <Statement>SQL SELECT *
+FROM Manager</Statement>
+     </LineageInfo>
+     <LineageInfo>
+       <Discriminator>Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\Advanced developer training\xtreme.mdb;Mode=Share Deny None;Extended Properties;Jet OLEDB:System database;Jet OLEDB:Registry Path;Jet OLEDB:Database Password;Jet OLEDB:Engine Type=5;Jet OLEDB:Database Locking Mode=1;Jet OLEDB:Global Partial Bulk Ops=2;Jet OLEDB:Global Bulk Transactions=1;Jet OLEDB:New Database Password;Jet OLEDB:Create System Database=False;Jet OLEDB:Encrypt Database=False;Jet OLEDB:Don't Copy Locale on Compact=False;Jet OLEDB:Compact Without Replica Repair=False;Jet OLEDB:SFP=False;</Discriminator>
+       <Statement>SQL SELECT *
+FROM Orders</Statement>
+     </LineageInfo>
+     <LineageInfo>
+       <Discriminator>Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\Advanced developer training\xtreme.mdb;Mode=Share Deny None;Extended Properties;Jet OLEDB:System database;Jet OLEDB:Registry Path;Jet OLEDB:Database Password;Jet OLEDB:Engine Type=5;Jet OLEDB:Database Locking Mode=1;Jet OLEDB:Global Partial Bulk Ops=2;Jet OLEDB:Global Bulk Transactions=1;Jet OLEDB:New Database Password;Jet OLEDB:Create System Database=False;Jet OLEDB:Encrypt Database=False;Jet OLEDB:Don't Copy Locale on Compact=False;Jet OLEDB:Compact Without Replica Repair=False;Jet OLEDB:SFP=False;</Discriminator>
+       <Statement>SQL SELECT *
+FROM Product</Statement>
+     </LineageInfo>
+     <LineageInfo>
+       <Discriminator>Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\Advanced developer training\xtreme.mdb;Mode=Share Deny None;Extended Properties;Jet OLEDB:System database;Jet OLEDB:Registry Path;Jet OLEDB:Database Password;Jet OLEDB:Engine Type=5;Jet OLEDB:Database Locking Mode=1;Jet OLEDB:Global Partial Bulk Ops=2;Jet OLEDB:Global Bulk Transactions=1;Jet OLEDB:New Database Password;Jet OLEDB:Create System Database=False;Jet OLEDB:Encrypt Database=False;Jet OLEDB:Don't Copy Locale on Compact=False;Jet OLEDB:Compact Without Replica Repair=False;Jet OLEDB:SFP=False;</Discriminator>
+       <Statement>SQL SELECT *
+FROM Supplier</Statement>
+     </LineageInfo>
+     <LineageInfo>
+       <Discriminator>Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\Advanced developer training\xtreme.mdb;Mode=Share Deny None;Extended Properties;Jet OLEDB:System database;Jet OLEDB:Registry Path;Jet OLEDB:Database Password;Jet OLEDB:Engine Type=5;Jet OLEDB:Database Locking Mode=1;Jet OLEDB:Global Partial Bulk Ops=2;Jet OLEDB:Global Bulk Transactions=1;Jet OLEDB:New Database Password;Jet OLEDB:Create System Database=False;Jet OLEDB:Encrypt Database=False;Jet OLEDB:Don't Copy Locale on Compact=False;Jet OLEDB:Compact Without Replica Repair=False;Jet OLEDB:SFP=False;</Discriminator>
+       <Statement>SQL SELECT *
+FROM `Employee Addresses`</Statement>
+     </LineageInfo>
+     <LineageInfo>
+       <Discriminator>Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\Advanced developer training\xtreme.mdb;Mode=Share Deny None;Extended Properties;Jet OLEDB:System database;Jet OLEDB:Registry Path;Jet OLEDB:Database Password;Jet OLEDB:Engine Type=5;Jet OLEDB:Database Locking Mode=1;Jet OLEDB:Global Partial Bulk Ops=2;Jet OLEDB:Global Bulk Transactions=1;Jet OLEDB:New Database Password;Jet OLEDB:Create System Database=False;Jet OLEDB:Encrypt Database=False;Jet OLEDB:Don't Copy Locale on Compact=False;Jet OLEDB:Compact Without Replica Repair=False;Jet OLEDB:SFP=False;</Discriminator>
+       <Statement>SQL SELECT *
+FROM `List Totals`</Statement>
+     </LineageInfo>
+     <LineageInfo>
+       <Discriminator>Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\Advanced developer training\xtreme.mdb;Mode=Share Deny None;Extended Properties;Jet OLEDB:System database;Jet OLEDB:Registry Path;Jet OLEDB:Database Password;Jet OLEDB:Engine Type=5;Jet OLEDB:Database Locking Mode=1;Jet OLEDB:Global Partial Bulk Ops=2;Jet OLEDB:Global Bulk Transactions=1;Jet OLEDB:New Database Password;Jet OLEDB:Create System Database=False;Jet OLEDB:Encrypt Database=False;Jet OLEDB:Don't Copy Locale on Compact=False;Jet OLEDB:Compact Without Replica Repair=False;Jet OLEDB:SFP=False;</Discriminator>
+       <Statement>SQL SELECT *
+FROM `Orders Detail`</Statement>
+     </LineageInfo>
+     <LineageInfo>
+       <Discriminator>Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\Advanced developer training\xtreme.mdb;Mode=Share Deny None;Extended Properties;Jet OLEDB:System database;Jet OLEDB:Registry Path;Jet OLEDB:Database Password;Jet OLEDB:Engine Type=5;Jet OLEDB:Database Locking Mode=1;Jet OLEDB:Global Partial Bulk Ops=2;Jet OLEDB:Global Bulk Transactions=1;Jet OLEDB:New Database Password;Jet OLEDB:Create System Database=False;Jet OLEDB:Encrypt Database=False;Jet OLEDB:Don't Copy Locale on Compact=False;Jet OLEDB:Compact Without Replica Repair=False;Jet OLEDB:SFP=False;</Discriminator>
+       <Statement>SQL SELECT *
+FROM `Product Type`</Statement>
+     </LineageInfo>
+     <LineageInfo>
+       <Discriminator>Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\Advanced developer training\xtreme.mdb;Mode=Share Deny None;Extended Properties;Jet OLEDB:System database;Jet OLEDB:Registry Path;Jet OLEDB:Database Password;Jet OLEDB:Engine Type=5;Jet OLEDB:Database Locking Mode=1;Jet OLEDB:Global Partial Bulk Ops=2;Jet OLEDB:Global Bulk Transactions=1;Jet OLEDB:New Database Password;Jet OLEDB:Create System Database=False;Jet OLEDB:Encrypt Database=False;Jet OLEDB:Don't Copy Locale on Compact=False;Jet OLEDB:Compact Without Replica Repair=False;Jet OLEDB:SFP=False;</Discriminator>
+       <Statement>Supplier:
+LOAD
+    `Supplier ID`,
+    `Supplier Name`;SQL SELECT *
+FROM Supplier</Statement>
+     </LineageInfo>
+     <LineageInfo>
+       <Discriminator>Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\Advanced developer training\xtreme.mdb;Mode=Share Deny None;Extended Properties;Jet OLEDB:System database;Jet OLEDB:Registry Path;Jet OLEDB:Database Password;Jet OLEDB:Engine Type=5;Jet OLEDB:Database Locking Mode=1;Jet OLEDB:Global Partial Bulk Ops=2;Jet OLEDB:Global Bulk Transactions=1;Jet OLEDB:New Database Password;Jet OLEDB:Create System Database=False;Jet OLEDB:Encrypt Database=False;Jet OLEDB:Don't Copy Locale on Compact=False;Jet OLEDB:Compact Without Replica Repair=False;Jet OLEDB:SFP=False;</Discriminator>
+       <Statement>Totals:
+LOAD Expr1 as [Total Sales],
+    `Order ID`;SQL SELECT *
+FROM `List Totals`</Statement>
+     </LineageInfo>
+     <LineageInfo>
+       <Discriminator>RESIDENT Employees;</Discriminator>
+       <Statement></Statement>
+     </LineageInfo>
+     <LineageInfo>
+       <Discriminator>STORE - C:\Advanced developer training\Data\Customers.qvd(qvd);</Discriminator>
+       <Statement></Statement>
+     </LineageInfo>
+     <LineageInfo>
+       <Discriminator>STORE - C:\Advanced developer training\Data\EmployeeAddress.qvd(qvd);</Discriminator>
+       <Statement></Statement>
+     </LineageInfo>
+     <LineageInfo>
+       <Discriminator>STORE - C:\Advanced developer training\Data\Employees.qvd(qvd);</Discriminator>
+       <Statement></Statement>
+     </LineageInfo>
+     <LineageInfo>
+       <Discriminator>STORE - C:\Advanced developer training\Data\Manager.qvd(qvd);</Discriminator>
+       <Statement></Statement>
+     </LineageInfo>
+     <LineageInfo>
+       <Discriminator>STORE - C:\Advanced developer training\Data\Orders.qvd(qvd);</Discriminator>
+       <Statement></Statement>
+     </LineageInfo>
+     <LineageInfo>
+       <Discriminator>STORE - C:\Advanced developer training\Data\ProductType.qvd(qvd);</Discriminator>
+       <Statement></Statement>
+     </LineageInfo>
+     <LineageInfo>
+       <Discriminator>STORE - C:\Advanced developer training\Data\Products.qvd(qvd);</Discriminator>
+       <Statement></Statement>
+     </LineageInfo>
+     <LineageInfo>
+       <Discriminator>STORE - C:\Advanced developer training\Data\Supplier.qvd(qvd);</Discriminator>
+       <Statement></Statement>
+     </LineageInfo>
+     <LineageInfo>
+       <Discriminator>STORE - C:\Advanced developer training\Data\Teams.qvd(qvd);</Discriminator>
+       <Statement></Statement>
+     </LineageInfo>
+   </Lineage>
+   <Comment></Comment>
+ </QvdTableHeader>
+ AndrewFuller LaurentPereira NancyDavolio JanetLeverling MargaretPeacock StevenBuchanan LauraCallahan AlbertHellstern JustinBrid MichaelSuyama RobertKing AnneDodsworth TimSmith CarolinePatterson XavierMartin AndrewFuller StevenBuchanan JanetLeverling JustinBrid AndrewFuller/NancyDavolio AndrewFuller AndrewFuller/JanetLeverling AndrewFuller/MargaretPeacock AndrewFuller/StevenBuchanan AndrewFuller/StevenBuchanan/MichaelSuyama AndrewFuller/StevenBuchanan/RobertKing AndrewFuller/LauraCallahan AndrewFuller/StevenBuchanan/AnneDodsworth AndrewFuller/AlbertHellstern AndrewFuller/JanetLeverling/TimSmith AndrewFuller/JanetLeverling/CarolinePatterson AndrewFuller/JustinBrid AndrewFuller/JustinBrid/XavierMartin LaurentPereira                         	   
+                              NancyDavolio AndrewFuller JanetLeverling MargaretPeacock StevenBuchanan MichaelSuyama RobertKing LauraCallahan AnneDodsworth AlbertHellstern TimSmith CarolinePatterson JustinBrid XavierMartin LaurentPereira     "3DU%f6wˆH™	ªZ$»k$ÌÝ}- î@
