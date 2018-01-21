@@ -1,0 +1,93 @@
+//////////////////////////////////////////// SETTING ENVIRONMENT VARIABLES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+LET vReloadStartTIme		=	Now();
+
+LET vComputerName  		= 	ComputerName();
+
+LET vPrimaryDeveloper 		= 	'Adam';
+
+LET vLastReloadBy			=	OSUser();
+
+LET vAppName				=	'Jupiter';
+
+LET vAppFriendlyName		=	'Jupiter Sales Dashboard';
+
+SET vGlobalConfigPath		=	'[..\..\..\__GLOBAL__\__GLOBAL-CONFIG__\Global_Config.xlsx]';
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/* LOADING Environment Master Table */
+
+EnvironmentMaster:
+LOAD 
+	ServerName, 
+	Environment
+FROM
+$(vGlobalConfigPath)
+(ooxml, embedded labels, table is Evnivornment_Setup);
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+IF '$(vComputerName)' = 'XXXXXX' Then
+	
+	LET vEnvironment			= 		Upper (Input('Enter the Environment to Reload'));
+
+ELSE
+
+	LET vEnvironment			=		Lookup('Environment', 'ServerName', '$(vComputerName)', 'EnvironmentMaster');	
+	
+ENDIF
+
+
+
+Drop Table EnvironmentMaster;
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/* LOADING GLOBAL Config Table */
+
+CONFIG:
+LOAD 
+	'Global'					AS		ConfigType,
+	ServerName, 
+	Environment, 
+	ConnectionName, 
+	ConnectionUniqueID,
+	ConnectionPath, 
+	PrimaryDevOwner, 
+	Notes
+FROM
+$(vGlobalConfigPath)
+(ooxml, embedded labels, table is Global_Config);
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+LET vLocalConfigPath		=		Lookup('ConnectionPath', 'ConnectionUniqueID', 'LocalConfig_$(vEnvironment)', 'CONFIG') & '$(vAppName)_Config.xlsx';
+
+Concatenate(CONFIG)
+
+LOAD 
+	'Local'					AS		ConfigType,
+	ServerName, 
+	Environment, 
+	ConnectionName, 
+	ConnectionUniqueID, 
+	ConnectionPath, 
+	PrimaryDevOwner, 
+	Notes
+FROM
+$(vLocalConfigPath)
+(ooxml, embedded labels, table is Local_Config);
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+LET vODBC_Gherkin		=	Lookup('ConnectionPath', 'ConnectionUniqueID', 'Gherkin_$(vEnvironment)', 'CONFIG');
+
+LET vQVDPath			=	Lookup('ConnectionPath', 'ConnectionUniqueID', 'QVDPath_$(vEnvironment)', 'CONFIG');
+
+LET vODBC_MCP		=	Lookup('ConnectionPath', 'ConnectionUniqueID', 'MCP_$(vEnvironment)', 'CONFIG');
+
+LET vRootPath			=	Lookup('ConnectionPath', 'ConnectionUniqueID', 'RootPath_$(vEnvironment)', 'CONFIG');
+
