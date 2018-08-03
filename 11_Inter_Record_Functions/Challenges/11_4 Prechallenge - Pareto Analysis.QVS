@@ -85,9 +85,6 @@ SQL SELECT *
 FROM Customer;
 
 Employees:
-Load *,
-      Year([Last Date]) as FireYear
-      ;
 LOAD 
     `Birth Date`,
     `Emergency Contact First Name`,
